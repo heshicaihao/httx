@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ht.mapper.GMUserMapper" >
+  <resultMap id="BaseResultMap" type="com.ht.model.GMUser" >
+    <id column="instKey" property="instkey" jdbcType="INTEGER" />
+    <result column="gmUserName" property="gmusername" jdbcType="VARCHAR" />
+    <result column="gmUserPWD" property="gmuserpwd" jdbcType="VARCHAR" />
+    <result column="coName" property="coname" jdbcType="VARCHAR" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+    <result column="userType" property="usertype" jdbcType="SMALLINT" />
+    <result column="userStatus" property="userstatus" jdbcType="SMALLINT" />
+    <result column="userLastLogin" property="userlastlogin" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    instKey, gmUserName, gmUserPWD, coName, userType, userStatus, userLastLogin,`desc`
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ht.model.GMUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from gmuser
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="offset != null">
+    	limit #{offset},#{rows}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from gmuser
+    where instKey = #{instkey,jdbcType=INTEGER}
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from gmuser
+    where gmUserName = #{gmusername,jdbcType=CHAR}
+  </select>
+  <select id="checkPass" resultMap="BaseResultMap" parameterType="com.ht.model.GMUser" >
+    select 
+    <include refid="Base_Column_List" />
+    from gmuser
+    where ucase(gmUserName) = #{gmusername,jdbcType=CHAR} and gmuserpwd=#{gmuserpwd} and userstatus=1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from gmuser
+    where instKey = #{instkey,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ht.model.GMUserExample" >
+    delete from gmuser
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ht.model.GMUser" >
+    insert into gmuser (instKey, gmUserName, gmUserPWD, 
+      coName, userType, userStatus, `desc`,
+      userLastLogin)
+    values (#{instkey,jdbcType=INTEGER}, #{gmusername,jdbcType=VARCHAR}, #{gmuserpwd,jdbcType=VARCHAR}, 
+      #{coname,jdbcType=VARCHAR}, #{usertype,jdbcType=SMALLINT}, #{userstatus,jdbcType=SMALLINT}, 
+      #{desc,jdbcType=VARCHAR},
+      current_timestamp())
+  </insert>
+  <insert id="insertSelective" parameterType="com.ht.model.GMUser" >
+    insert into gmuser
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="instkey != null" >
+        instKey,
+      </if>
+      <if test="gmusername != null" >
+        gmUserName,
+      </if>
+      <if test="gmuserpwd != null" >
+        gmUserPWD,
+      </if>
+      <if test="coname != null" >
+        coName,
+      </if>
+      <if test="usertype != null" >
+        userType,
+      </if>
+      <if test="userstatus != null" >
+        userStatus,
+      </if>
+      <if test="userlastlogin != null" >
+        userLastLogin,
+      </if>
+      <if test="desc != null" >
+        `desc`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="instkey != null" >
+        #{instkey,jdbcType=INTEGER},
+      </if>
+      <if test="gmusername != null" >
+        #{gmusername,jdbcType=VARCHAR},
+      </if>
+      <if test="gmuserpwd != null" >
+        #{gmuserpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="coname != null" >
+        #{coname,jdbcType=VARCHAR},
+      </if>
+      <if test="usertype != null" >
+        #{usertype,jdbcType=SMALLINT},
+      </if>
+      <if test="userstatus != null" >
+        #{userstatus,jdbcType=SMALLINT},
+      </if>
+      <if test="userlastlogin != null" >
+        #{userlastlogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="desc != null" >
+        #{desc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ht.model.GMUserExample" resultType="java.lang.Integer" >
+    select count(1) from gmuser
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update gmuser
+    <set >
+      <if test="record.gmusername != null" >
+        gmUserName = #{record.gmusername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gmuserpwd != null" >
+        gmUserPWD = #{record.gmuserpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coname != null" >
+        coName = #{record.coname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usertype != null" >
+        userType = #{record.usertype,jdbcType=SMALLINT},
+      </if>
+      <if test="record.userstatus != null" >
+        userStatus = #{record.userstatus,jdbcType=SMALLINT},
+      </if>
+      <if test="record.userlastlogin != null" >
+        userLastLogin = #{record.userlastlogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.desc != null" >
+        `desc` = #{record.desc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update gmuser
+    set instKey = #{record.instkey,jdbcType=INTEGER},
+      gmUserName = #{record.gmusername,jdbcType=VARCHAR},
+      gmUserPWD = #{record.gmuserpwd,jdbcType=VARCHAR},
+      coName = #{record.coname,jdbcType=VARCHAR},
+      userType = #{record.usertype,jdbcType=SMALLINT},
+      userStatus = #{record.userstatus,jdbcType=SMALLINT},
+      `desc` = #{record.desc,jdbcType=VARCHAR},
+      userLastLogin = #{record.userlastlogin,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ht.model.GMUser" >
+    update gmuser
+    <set >
+      <if test="gmusername != null" >
+        gmUserName = #{gmusername,jdbcType=VARCHAR},
+      </if>
+      <if test="gmuserpwd != null" >
+        gmUserPWD = #{gmuserpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="coname != null" >
+        coName = #{coname,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        `desc` = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="userstatus != null" >
+        userStatus = #{userstatus,jdbcType=SMALLINT},
+      </if>
+      <if test="userlastlogin != null" >
+       userlastlogin =  #{userlastlogin,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where instKey = #{instkey,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ht.model.GMUser" >
+    update gmuser
+    set gmUserName = #{gmusername,jdbcType=VARCHAR},
+      gmUserPWD = #{gmuserpwd,jdbcType=VARCHAR},
+      coName = #{coname,jdbcType=VARCHAR},
+      `desc` = #{desc,jdbcType=VARCHAR},
+      userType = #{usertype,jdbcType=SMALLINT},
+      userStatus = #{userstatus,jdbcType=SMALLINT},
+      userLastLogin = #{userlastlogin,jdbcType=TIMESTAMP}
+    where instKey = #{instkey,jdbcType=INTEGER}
+  </update>
+</mapper>

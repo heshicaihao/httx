@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ht.mapper.GMUserMapper" >
+
+  <select id="listPage" resultType="GMUser" parameterType="GMUser" >
+    select * 
+    from gmuser
+    where 1=1
+    <if test="gmusername != null and gmusername !=''">
+        and gmusername like #{gmusernameLike}
+    </if>
+    <if test="userstatus != null">
+        and userstatus = #{userstatus}
+    </if>
+    order by instkey
+    <if test="offset != null">
+    	limit #{offset},#{rows}
+    </if>
+  </select>
+  
+  <select id="getActiveUserList" resultType="GMUser" >
+    select * 
+    from gmuser where userstatus=1 order by gmusername
+  </select>
+  
+  <select id="getByKey" resultType="GMUser" parameterType="Integer" >
+    select *
+    from gmuser
+    where instKey = #{instkey,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getByName" resultType="GMUser" parameterType="java.lang.String" >
+    select *
+    from gmuser
+    where ucase(gmUserName) = #{gmusername,jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="insert" parameterType="com.ht.model.GMUser" >
+    insert into gmuser (instKey, gmUserName,coName, userStatus, contactor,phoneNo,`desc`)
+    values (#{instkey,jdbcType=INTEGER}, #{gmusername,jdbcType=VARCHAR}, #{coname,jdbcType=VARCHAR},
+     #{userstatus,jdbcType=SMALLINT}, #{contactor,jdbcType=VARCHAR}, #{phoneNo,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR})
+  </insert>
+  
+  <select id="countPage" parameterType="GMUser" resultType="java.lang.Integer" >
+    select count(1) from gmuser
+    where 1=1
+    <if test="gmusername != null and gmusername !=''">
+        and gmusername like #{gmusernameLike}
+    </if>
+    <if test="userstatus != null">
+        and userstatus = #{userstatus}
+    </if>
+  </select>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.ht.model.GMUser" >
+    update gmuser
+    <set >
+      <if test="gmusername != null" >
+        gmUserName = #{gmusername,jdbcType=VARCHAR},
+      </if>
+      <if test="contactor != null" >
+        contactor = #{contactor,jdbcType=VARCHAR},
+      </if>
+      <if test="coname != null" >
+        coName = #{coname,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNo != null" >
+        phoneNo = #{phoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userstatus != null" >
+        userStatus = #{userstatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desc != null" >
+        `desc` = #{desc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where instKey = #{instkey,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

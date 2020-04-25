@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- Scans the classpath of this application for @Components to deploy as 
+		beans -->
+	<context:component-scan base-package="com.ht.controller" />
+
+	<!-- Configures the @Controller programming model -->
+	<mvc:annotation-driven />
+
+	<!-- Forwards requests to the "/" resource to the "index" view -->
+	<mvc:view-controller path="/" view-name="index" />
+	<mvc:view-controller path="/index" view-name="index" />
+	<mvc:view-controller path="/verify" view-name="verify" />
+	<mvc:view-controller path="/center" view-name="center" />
+	<mvc:view-controller path="/down" view-name="down" />
+	<mvc:view-controller path="/main" view-name="main" />
+	<mvc:view-controller path="/main2" view-name="main2" />
+	<mvc:view-controller path="/top" view-name="top" />
+	<mvc:view-controller path="/tab" view-name="tab" />
+	<mvc:view-controller path="/middel" view-name="middel" />
+	<mvc:view-controller path="/left" view-name="left" />
+	<!-- Configures Handler Interceptors-->
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+		<bean class="com.ht.util.LoginInterceptor" >
+			<property name="urlMapping" value=".*/"></property>
+			<property name="exclude">
+				<list>
+					<value>index</value>
+					<value>center</value>
+					<value>down</value>
+					<value>main</value>
+					<value>top</value>
+					<value>tab</value>
+					<value>middel</value>
+					<value>left</value>
+				</list>
+			</property>
+		</bean>
+		<mvc:interceptor>
+			<mvc:mapping path="/main" />
+			<mvc:mapping path="/u/*" />
+			<mvc:mapping path="/p/*" />
+			<mvc:mapping path="/j/*" />
+			<mvc:mapping path="/d/*" />
+			<bean class="com.ht.util.UserSessionInteceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors> 
+ 
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources/ directory -->
+	<mvc:resources mapping="/static/**" location="/static/" />
+	
+	<!-- Spring upload file -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+
+	<!-- Saves a locale change using a cookie -->
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
+
+	<!-- - This bean resolves specific types of exceptions to corresponding 
+		logical - view names for error views. The default behaviour of DispatcherServlet 
+		- is to propagate all exceptions to the servlet container: this will happen 
+		- here with all other types of exceptions. -->
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.springframework.dao.DataAccessException">dataAccessFailure</prop>
+				<prop key="org.springframework.transaction.TransactionException">dataAccessFailure</prop>
+				<prop key="java.lang.Exception">uncaughtException</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- - The BeanNameViewResolver is used to pick up the visits view name 
+		(below). - It has the order property set to 2, which means that this will 
+		- be the first view resolver to be used after the delegating content - negotiating 
+		view resolver. -->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"
+		p:order="1" />
+	<!-- Resolves view names to protected .jsp resources within the /WEB-INF/views 
+		directory -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/WEB-INF/view/" p:suffix=".jsp" p:order="2" />
+
+</beans>

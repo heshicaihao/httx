@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ht.mapper.IntEntrepotDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.ht.model.IntEntrepotDetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="entrepotid" property="entrepotid" jdbcType="INTEGER" />
+    <result column="goodsid" property="goodsid" jdbcType="INTEGER" />
+    <result column="DecPrice" property="decprice" jdbcType="DECIMAL" />
+    <result column="GQty" property="gqty" jdbcType="INTEGER" />
+    <result column="DeclTotal" property="decltotal" jdbcType="DECIMAL" />
+    <result column="Note" property="note" jdbcType="VARCHAR" />
+    <result column="BARCODE" property="barCode" jdbcType="VARCHAR" />
+    <result column="currentInventory" property="currentInventory" jdbcType="INTEGER" />
+    <result column="actNo" property="actNo" jdbcType="INTEGER" />
+    <result column="batchNo" property="batchNo" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, entrepotid, goodsid, DecPrice, GQty, DeclTotal, Note,actNo,currentInventory,BARCODE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ht.model.IntEntrepotDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from int_entrepot_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from int_entrepot_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from int_entrepot_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ht.model.IntEntrepotDetailExample" >
+    delete from int_entrepot_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ht.model.IntEntrepotDetail" >
+    insert into int_entrepot_detail (id, entrepotid, goodsid, 
+      DecPrice, GQty, DeclTotal, Note)
+    values (#{id,jdbcType=INTEGER}, #{entrepotid,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, 
+      #{decprice,jdbcType=DECIMAL}, #{gqty,jdbcType=INTEGER}, #{decltotal,jdbcType=DECIMAL}, 
+      #{note,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ht.model.IntEntrepotDetail" >
+    insert into int_entrepot_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="entrepotid != null" >
+        entrepotid,
+      </if>
+      <if test="goodsid != null" >
+        goodsid,
+      </if>
+      <if test="decprice != null" >
+        DecPrice,
+      </if>
+      <if test="gqty != null" >
+        GQty,
+      </if>
+      <if test="decltotal != null" >
+        DeclTotal,
+      </if>
+      <if test="note != null" >
+        Note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="entrepotid != null" >
+        #{entrepotid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsid != null" >
+        #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="decprice != null" >
+        #{decprice,jdbcType=DECIMAL},
+      </if>
+      <if test="gqty != null" >
+        #{gqty,jdbcType=INTEGER},
+      </if>
+      <if test="decltotal != null" >
+        #{decltotal,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ht.model.IntEntrepotDetailExample" resultType="java.lang.Integer" >
+    select count(*) from int_entrepot_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update int_entrepot_detail
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.entrepotid != null" >
+        entrepotid = #{record.entrepotid,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsid != null" >
+        goodsid = #{record.goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="record.decprice != null" >
+        DecPrice = #{record.decprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.gqty != null" >
+        GQty = #{record.gqty,jdbcType=INTEGER},
+      </if>
+      <if test="record.decltotal != null" >
+        DeclTotal = #{record.decltotal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.note != null" >
+        Note = #{record.note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update int_entrepot_detail
+    set id = #{record.id,jdbcType=INTEGER},
+      entrepotid = #{record.entrepotid,jdbcType=INTEGER},
+      goodsid = #{record.goodsid,jdbcType=INTEGER},
+      DecPrice = #{record.decprice,jdbcType=DECIMAL},
+      GQty = #{record.gqty,jdbcType=INTEGER},
+      DeclTotal = #{record.decltotal,jdbcType=DECIMAL},
+      Note = #{record.note,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ht.model.IntEntrepotDetail" >
+    update int_entrepot_detail
+    <set >
+      <if test="entrepotid != null" >
+        entrepotid = #{entrepotid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsid != null" >
+        goodsid = #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="decprice != null" >
+        DecPrice = #{decprice,jdbcType=DECIMAL},
+      </if>
+      <if test="gqty != null" >
+        GQty = #{gqty,jdbcType=INTEGER},
+      </if>
+      <if test="decltotal != null" >
+        DeclTotal = #{decltotal,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null" >
+        Note = #{note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ht.model.IntEntrepotDetail" >
+    update int_entrepot_detail
+    set entrepotid = #{entrepotid,jdbcType=INTEGER},
+      goodsid = #{goodsid,jdbcType=INTEGER},
+      DecPrice = #{decprice,jdbcType=DECIMAL},
+      GQty = #{gqty,jdbcType=INTEGER},
+      DeclTotal = #{decltotal,jdbcType=DECIMAL},
+      Note = #{note,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getDetails" parameterType="int" resultType="IntEntrepotDetail">
+    select l.id,l.decprice,l.gqty,l.decltotal,l.note,l.batchno,l.goodsid,g.rmb,g.CopGNo,g.GName,u.UNIT_name,g.GrossWt * l.gqty as grossWt,g.NetWt*l.gqty as netWt,l.barCode,
+    g.registNo, c.registNo as companyregistNo,i.no,u.UNIT_CODE,g.country,g.gmodel,g.manufactory,c.inspectionRegistNo,g.hscode,l.actNo,
+    ug.instkey as usergoodscode
+    from int_entrepot_detail l 
+    inner join int_entrepot i on l.entrepotid=i.id
+    inner join goods g on g.id=l.goodsid
+    inner join unit_code u on u.UNIT_CODE=g.unit
+    inner join company c on c.id=i.companyid
+    inner join usergoods ug on ug.goodsid=g.id and ug.userkey=i.custid
+    where l.entrepotid=#{entrepotid}
+    order by ug.instkey
+  </select>
+
+  <select id="getSeqNo" parameterType="int" resultType="Integer">
+    select max(seqNo)+1 from int_entrepot_detail i 
+    inner join int_entrepot it on it.id=i.entrepotid 
+    where it.custid=#{userId}
+  </select>
+  
+  <update id="updateActNo" parameterType="IntEntrepotDetail">
+  UPDATE int_entrepot_detail SET ACTNO=#{actNo},barCode=#{barCode},batchNo=#{batchNo},currentInventory=#{actNo},
+  incomeuserid=#{incomeUserId},
+  LASTUPDATE=NOW()
+   WHERE ID=#{id}
+  </update>
+  
+  <insert id="addUI" parameterType="IntEntrepotDetail">
+    INSERT INTO ui_import_int_entrepot(transinstkey,usergoodscode,numCount,note)
+    VALUES(#{transInstKey},#{usergoodscode},#{gqty},#{note,jdbcType=VARCHAR})
+  </insert>
+  
+  <select id="checkUserGoods" resultType="String">
+    select ui.usergoodscode from ui_import_int_entrepot ui 
+    left join usergoods ug on ug.instkey=ui.usergoodscode and ug.userkey=#{userKey} and ug.active=1
+    where ui.transinstkey=#{transInstKey} and ug.instkey is null
+  </select>
+  
+  <delete id="cleanUI" parameterType="String">
+    DELETE FROM ui_import_int_entrepot WHERE TRANSINSTKEY=#{transInstKey}
+  </delete>
+  
+  <select id="getDetailsListFromUI" parameterType="String" resultType="IntEntrepotDetail">
+    select ug.goodsid,g.rmb,ui.numCount as gqty,ui.note 
+    from ui_import_int_entrepot ui
+    inner join usergoods ug on ug.instkey=ui.usergoodscode
+    inner join goods g on g.id=ug.goodsid
+    where ui.transinstkey=#{transInstKey}
+  </select>
+  
+  <update id="updateTotalNum" parameterType="String">
+    Update usergoods set totalNo=totalNo+#{actNo} where instkey=#{instkey}
+  </update>
+  
+  <select id="checkInactiveGoods" resultType="String">
+  	select ui.usergoodscode from ui_import_int_entrepot ui 
+    INNER join usergoods ug on ug.instkey=ui.usergoodscode and ug.userkey=#{userKey} and ug.active=1
+    INNER JOIN GOODS G ON G.ID=UG.GOODSID
+    where ui.transinstkey=#{transInstKey} and G.ACTIVE=2
+  </select>
+  
+  <select id="selectForUpdate" resultType="IntEntrepotDetail">
+    select I.*,U.INSTKEY AS USERGOODSCODE From int_entrepot_detail I INNER JOIN INT_ENTREPOT O ON O.ID=I.ENTREPOTID 
+	INNER JOIN USERGOODS U ON U.GOODSID=I.GOODSID AND O.CUSTID=U.USERKEY
+	where o.id=#{hiddenid} and i.actNo is not null and i.actNo > 0 and I.id in
+    <foreach item="item" collection="list" open="(" separator=","
+        close=")">
+        #{item}
+    </foreach>
+  </select>
+</mapper>

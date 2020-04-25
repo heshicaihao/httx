@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ht.mapper.EwaybillMapper" >
+  <resultMap id="BaseResultMap" type="com.ht.model.Ewaybill" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="orderid" property="orderid" jdbcType="VARCHAR" />
+    <result column="EntRecordName" property="entrecordname" jdbcType="VARCHAR" />
+    <result column="EntRecordNo" property="entrecordno" jdbcType="VARCHAR" />
+    <result column="WayBillNo" property="waybillno" jdbcType="VARCHAR" />
+    <result column="DeclareType" property="declaretype" jdbcType="VARCHAR" />
+    <result column="LogisticsStatus" property="logisticsstatus" jdbcType="VARCHAR" />
+    <result column="Freight" property="freight" jdbcType="DECIMAL" />
+    <result column="ValuationFee" property="valuationfee" jdbcType="DECIMAL" />
+    <result column="NoticeNo" property="noticeno" jdbcType="VARCHAR" />
+    <result column="Note" property="note" jdbcType="VARCHAR" />
+    <result column="Tax" property="tax" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, orderid, EntRecordName, EntRecordNo, WayBillNo, DeclareType, LogisticsStatus, 
+    Freight, ValuationFee, NoticeNo, Note ,Tax
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ht.model.EwaybillExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ewaybill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ewaybill
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ewaybill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ht.model.EwaybillExample" >
+    delete from ewaybill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ht.model.Ewaybill" >
+    insert into ewaybill (id, orderid, EntRecordName, 
+      EntRecordNo, WayBillNo, DeclareType, 
+      LogisticsStatus, Freight, ValuationFee, 
+      NoticeNo, Note, Tax)
+    values (#{id,jdbcType=INTEGER}, #{orderid,jdbcType=VARCHAR}, #{entrecordname,jdbcType=VARCHAR}, 
+      #{entrecordno,jdbcType=VARCHAR}, #{waybillno,jdbcType=VARCHAR}, #{declaretype,jdbcType=VARCHAR}, 
+      #{logisticsstatus,jdbcType=VARCHAR}, #{freight,jdbcType=DECIMAL}, #{valuationfee,jdbcType=DECIMAL}, 
+      #{noticeno,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{tax,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ht.model.Ewaybill" >
+    insert into ewaybill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderid != null" >
+        orderid,
+      </if>
+      <if test="entrecordname != null" >
+        EntRecordName,
+      </if>
+      <if test="entrecordno != null" >
+        EntRecordNo,
+      </if>
+      <if test="waybillno != null" >
+        WayBillNo,
+      </if>
+      <if test="declaretype != null" >
+        DeclareType,
+      </if>
+      <if test="logisticsstatus != null" >
+        LogisticsStatus,
+      </if>
+      <if test="freight != null" >
+        Freight,
+      </if>
+      <if test="valuationfee != null" >
+        ValuationFee,
+      </if>
+      <if test="noticeno != null" >
+        NoticeNo,
+      </if>
+      <if test="note != null" >
+        Note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="entrecordname != null" >
+        #{entrecordname,jdbcType=VARCHAR},
+      </if>
+      <if test="entrecordno != null" >
+        #{entrecordno,jdbcType=VARCHAR},
+      </if>
+      <if test="waybillno != null" >
+        #{waybillno,jdbcType=VARCHAR},
+      </if>
+      <if test="declaretype != null" >
+        #{declaretype,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsstatus != null" >
+        #{logisticsstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="freight != null" >
+        #{freight,jdbcType=DECIMAL},
+      </if>
+      <if test="valuationfee != null" >
+        #{valuationfee,jdbcType=DECIMAL},
+      </if>
+      <if test="noticeno != null" >
+        #{noticeno,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ht.model.EwaybillExample" resultType="java.lang.Integer" >
+    select count(*) from ewaybill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ewaybill
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderid != null" >
+        orderid = #{record.orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entrecordname != null" >
+        EntRecordName = #{record.entrecordname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entrecordno != null" >
+        EntRecordNo = #{record.entrecordno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.waybillno != null" >
+        WayBillNo = #{record.waybillno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.declaretype != null" >
+        DeclareType = #{record.declaretype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logisticsstatus != null" >
+        LogisticsStatus = #{record.logisticsstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.freight != null" >
+        Freight = #{record.freight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.valuationfee != null" >
+        ValuationFee = #{record.valuationfee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.noticeno != null" >
+        NoticeNo = #{record.noticeno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.note != null" >
+        Note = #{record.note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ewaybill
+    set id = #{record.id,jdbcType=INTEGER},
+      orderid = #{record.orderid,jdbcType=VARCHAR},
+      EntRecordName = #{record.entrecordname,jdbcType=VARCHAR},
+      EntRecordNo = #{record.entrecordno,jdbcType=VARCHAR},
+      WayBillNo = #{record.waybillno,jdbcType=VARCHAR},
+      DeclareType = #{record.declaretype,jdbcType=VARCHAR},
+      LogisticsStatus = #{record.logisticsstatus,jdbcType=VARCHAR},
+      Freight = #{record.freight,jdbcType=DECIMAL},
+      ValuationFee = #{record.valuationfee,jdbcType=DECIMAL},
+      NoticeNo = #{record.noticeno,jdbcType=VARCHAR},
+      Note = #{record.note,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ht.model.Ewaybill" >
+    update ewaybill
+    <set >
+      <if test="orderid != null" >
+        orderid = #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="entrecordname != null" >
+        EntRecordName = #{entrecordname,jdbcType=VARCHAR},
+      </if>
+      <if test="entrecordno != null" >
+        EntRecordNo = #{entrecordno,jdbcType=VARCHAR},
+      </if>
+      <if test="waybillno != null" >
+        WayBillNo = #{waybillno,jdbcType=VARCHAR},
+      </if>
+      <if test="declaretype != null" >
+        DeclareType = #{declaretype,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsstatus != null" >
+        LogisticsStatus = #{logisticsstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="freight != null" >
+        Freight = #{freight,jdbcType=DECIMAL},
+      </if>
+      <if test="valuationfee != null" >
+        ValuationFee = #{valuationfee,jdbcType=DECIMAL},
+      </if>
+      <if test="noticeno != null" >
+        NoticeNo = #{noticeno,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        Note = #{note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ht.model.Ewaybill" >
+    update ewaybill
+    set orderid = #{orderid,jdbcType=VARCHAR},
+      EntRecordName = #{entrecordname,jdbcType=VARCHAR},
+      EntRecordNo = #{entrecordno,jdbcType=VARCHAR},
+      WayBillNo = #{waybillno,jdbcType=VARCHAR},
+      DeclareType = #{declaretype,jdbcType=VARCHAR},
+      LogisticsStatus = #{logisticsstatus,jdbcType=VARCHAR},
+      Freight = #{freight,jdbcType=DECIMAL},
+      ValuationFee = #{valuationfee,jdbcType=DECIMAL},
+      NoticeNo = #{noticeno,jdbcType=VARCHAR},
+      Note = #{note,jdbcType=VARCHAR},
+      Tax = #{tax,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ht.mapper.IntEntrepotMapper" >
+  <resultMap id="BaseResultMap" type="com.ht.model.IntEntrepot" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="no" property="no" jdbcType="VARCHAR" />
+    <result column="writedate" property="writedate" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="companyid" property="companyid" jdbcType="INTEGER" />
+    <result column="batchno" property="batchno" jdbcType="VARCHAR" />
+    <result column="custid" property="custid" jdbcType="INTEGER" />
+    <result column="createUserId" property="createuserid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, no, writedate, remark, companyid, batchno, custid, createUserId
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ht.model.IntEntrepotExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    i.id,i.no,i.writedate,i.remark,i.companyid,i.batchno,i.custid,i.createuserid,
+    c.name as companyName,u.gmusername as customerName,i.remark
+    from int_entrepot i inner join company c on c.id=i.companyid
+    inner join gmuser u on u.instkey=i.custid
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="offset != null">
+        limit #{offset},#{rows}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    i.id,i.no,i.writedate,i.remark,i.companyid,i.batchno,i.custid,i.createuserid,
+    c.name as companyName,u.gmusername as customerName
+    from int_entrepot i left join company c on c.id=i.companyid
+    left join gmuser u on u.instkey=i.custid
+    where i.id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from int_entrepot
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ht.model.IntEntrepotExample" >
+    delete from int_entrepot
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ht.model.IntEntrepot" useGeneratedKeys="true" keyProperty="id">
+    insert into int_entrepot (id, no, writedate, 
+      remark, companyid, batchno, 
+      custid, createUserId)
+    values (#{id,jdbcType=INTEGER}, #{no,jdbcType=VARCHAR}, #{writedate,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{companyid,jdbcType=INTEGER}, #{batchno,jdbcType=VARCHAR}, 
+      #{custid,jdbcType=INTEGER}, #{createuserid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ht.model.IntEntrepot" >
+    insert into int_entrepot
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="no != null" >
+        no,
+      </if>
+      <if test="writedate != null" >
+        writedate,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="companyid != null" >
+        companyid,
+      </if>
+      <if test="batchno != null" >
+        batchno,
+      </if>
+      <if test="custid != null" >
+        custid,
+      </if>
+      <if test="createuserid != null" >
+        createUserId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="no != null" >
+        #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="writedate != null" >
+        #{writedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="companyid != null" >
+        #{companyid,jdbcType=INTEGER},
+      </if>
+      <if test="batchno != null" >
+        #{batchno,jdbcType=VARCHAR},
+      </if>
+      <if test="custid != null" >
+        #{custid,jdbcType=INTEGER},
+      </if>
+      <if test="createuserid != null" >
+        #{createuserid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ht.model.IntEntrepotExample" resultType="java.lang.Integer" >
+    select count(*) from int_entrepot
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update int_entrepot
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.no != null" >
+        no = #{record.no,jdbcType=VARCHAR},
+      </if>
+      <if test="record.writedate != null" >
+        writedate = #{record.writedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyid != null" >
+        companyid = #{record.companyid,jdbcType=INTEGER},
+      </if>
+      <if test="record.batchno != null" >
+        batchno = #{record.batchno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custid != null" >
+        custid = #{record.custid,jdbcType=INTEGER},
+      </if>
+      <if test="record.createuserid != null" >
+        createUserId = #{record.createuserid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update int_entrepot
+    set id = #{record.id,jdbcType=INTEGER},
+      no = #{record.no,jdbcType=VARCHAR},
+      writedate = #{record.writedate,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      companyid = #{record.companyid,jdbcType=INTEGER},
+      batchno = #{record.batchno,jdbcType=VARCHAR},
+      custid = #{record.custid,jdbcType=INTEGER},
+      createUserId = #{record.createuserid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ht.model.IntEntrepot" >
+    update int_entrepot
+    <set >
+      <if test="no != null" >
+        no = #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="writedate != null" >
+        writedate = #{writedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="companyid != null" >
+        companyid = #{companyid,jdbcType=INTEGER},
+      </if>
+      <if test="batchno != null" >
+        batchno = #{batchno,jdbcType=VARCHAR},
+      </if>
+      <if test="custid != null" >
+        custid = #{custid,jdbcType=INTEGER},
+      </if>
+      <if test="createuserid != null" >
+        createUserId = #{createuserid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ht.model.IntEntrepot" >
+    update int_entrepot
+    set no = #{no,jdbcType=VARCHAR},
+      writedate = #{writedate,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      companyid = #{companyid,jdbcType=INTEGER},
+      batchno = #{batchno,jdbcType=VARCHAR},
+      custid = #{custid,jdbcType=INTEGER},
+      createUserId = #{createuserid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getMaxUserSeq" parameterType="Int" resultType="String">
+  select max(no) from int_entrepot where custid=#{userKey}
+  </select>
+  
+  <select id="getInventoryById" parameterType="Int" resultType="Int">
+  select sum((case when il.actNo is null then 0 else il.actNo end))
+  from int_entrepot i 
+  LEFT join int_entrepot_detail il on i.id=il.entrepotid
+  where i.id=#{id}
+  </select>
+</mapper>

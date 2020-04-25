@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Manifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Head>
+		<MessageID>880022${tr.yyyyMMddHHmmSSS}</MessageID>
+		<MessageType>880022</MessageType>
+		<SenderID>${tr.senderID}</SenderID>
+		<SendTime>${tr.currentTime}</SendTime>
+		<Version>1</Version>
+	</Head>
+	<Declaration>
+		<EWayBills>
+		<#list tr.eWayBills as eWayBill>
+			<EWayBill>
+				<OrderId>${eWayBill.orderId}</OrderId>
+				<IEFlag>I</IEFlag>
+				<EntRecordNo>${eWayBill.entRecordNo}</EntRecordNo>
+				<EntRecordName>${eWayBill.entRecordName}</EntRecordName>
+				<WayBillNo>${eWayBill.wayBillNo}</WayBillNo>
+				<DeclareType>1</DeclareType>
+				<LogisticsStatus>发货</LogisticsStatus>
+				<Freight>${eWayBill.freight}</Freight>
+				<FreightCurr>${eWayBill.freightCurr}</FreightCurr>
+				<ValuationFee>${eWayBill.valuationFee}</ValuationFee>
+				<ValuationFeeCurr>${eWayBill.valuationFeeCurr}</ValuationFeeCurr>
+				<NetWt>${eWayBill.netWt}</NetWt>
+				<GrossWt>${eWayBill.grossWt}</GrossWt>
+				<Num>${eWayBill.num}</Num>
+				<GoodInfo>${eWayBill.goodInfo}</GoodInfo>
+				<RecipientName>${eWayBill.recipientName}</RecipientName>
+				<RecipientCountryCode>142</RecipientCountryCode>
+				<RecipientProvincesCode>${eWayBill.recipientProvincesCode}</RecipientProvincesCode>
+				<RecipientDetailedAddress>${eWayBill.recipientDetailedAddress}</RecipientDetailedAddress>
+				<RecipientPhone>${eWayBill.recipientPhone}</RecipientPhone>
+				<ShipperName>${eWayBill.shipperName}</ShipperName>
+				<ShipperCountryCode>142</ShipperCountryCode>
+				<ShipperProvincesCode>440101</ShipperProvincesCode>
+				<ShipperDetailedAddress>广东省广州市花都区广州机场综合保税区汇通天下仓库</ShipperDetailedAddress>
+				<ShipperPhone>020-61150313</ShipperPhone>
+				<NoticeNo>${eWayBill.noticeNo}</NoticeNo>
+			</EWayBill>
+		</#list>
+		</EWayBills>
+	</Declaration>
+</Manifest>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Manifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Head>
+		<MessageID>881104${tr.yyyyMMddHHmmSSS}</MessageID>
+		<FunctionCode>0</FunctionCode>
+		<MessageType>881104</MessageType>
+		<SenderID>${tr.senderID}</SenderID>
+		<ReceiverID>${tr.receiverID}</ReceiverID>
+		<SendTime>${tr.currentTime}</SendTime>
+		<Version>1</Version>
+	</Head>
+	<Declaration>
+		<EBill>
+			<EntInsideNo>${tr.eBill.entInsideNo}</EntInsideNo>
+			<MasterCustoms>5141</MasterCustoms>
+			<EmsNo>P5141J140006</EmsNo>
+			<ReceiveName>${tr.eBill.receiveName}</ReceiveName>
+			<RecipientProvincesCode>${tr.eBill.recipientProvincesCode}</RecipientProvincesCode>
+			<ReceiveAddr>${tr.eBill.receiveAddr}</ReceiveAddr>
+			<ReceiveNo>${tr.eBill.receiveNo}</ReceiveNo>
+			<OrderName>${tr.eBill.orderName}</OrderName>
+			<OrderDocType>01</OrderDocType>
+			<OrderDocId>${tr.eBill.orderDocId}</OrderDocId>
+			<OrderId>${tr.eBill.orderId}</OrderId>
+			<EWayBillId>${tr.eBill.eWayBillId}</EWayBillId>
+			<Freight>${tr.eBill.freight}</Freight>
+			<FreightCurr>142</FreightCurr>
+			<DrDate>${tr.eBill.drDate}</DrDate>
+			<InputDate>${tr.eBill.inputDate}</InputDate>
+			<ShipperCountryCode>502</ShipperCountryCode>
+		</EBill>
+		<EBillLists>
+			<#list tr.eBillList as eBillLst>		
+			<EBillList>
+				<GNo>${eBillLst_index +1}</GNo>
+				<CustomsListNO>${eBillLst.customsListNO}</CustomsListNO>
+				<Qty>${eBillLst.qty}</Qty>
+				<DecPrice>${eBillLst.decPrice}</DecPrice>
+				<DecTotal>${eBillLst.decTotal}</DecTotal>
+				<Curr>${eBillLst.curr}</Curr>
+				<GrossWt>${eBillLst.grossWt}</GrossWt>
+				<NetWt>${eBillLst.netWt}</NetWt>
+			</EBillList>
+		</#list>			
+		</EBillLists>
+	</Declaration>
+</Manifest>
