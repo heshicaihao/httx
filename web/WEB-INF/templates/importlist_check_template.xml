@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InternationalTrade>
+	<!--报文头-->
+	<Head>
+		<!-- 报文编号 -->
+		<MessageID>DS${tr.yyyyMMddHHmmSSS}</MessageID>
+		<!-- 报文类型 -->
+		<MessageType>881104</MessageType>
+		<!-- 报文发送者标识 -->
+		<Sender>不知道填什么</Sender>
+		<!-- 报文接收人标识 -->
+		<Receiver>不知道填什么</Receiver>
+		<!-- 发送时间 -->
+		<SendTime>${tr.currentTime}</SendTime>
+		<!-- 业务类型 -->
+		<FunctionCode>100100</FunctionCode>
+		<!--版本 默认为1.0-->
+		<Version>1.0</Version>
+	</Head>
+	<!--报文体-->
+	<Declaration>
+		<!-- 进境清单头信息 -->
+		<ImportHead>
+			<!-- 申报企业备案编号 -->
+			<CIQEntRegNo>不知道填什么</CIQEntRegNo>
+			<!-- 代理申报企业备案编号 -->
+			<AgentEntNo>不知道填什么</AgentEntNo>
+			<!-- 检验检疫机构 -->
+			<OrgCode>不知道填什么</OrgCode>
+			<!-- 收件人姓名 -->
+			<ConsigneeName>${tr.importCheckHead.consigneeName}</ConsigneeName>
+			<!-- 收件人地址 -->
+			<ConsigneeAddr>${tr.importCheckHead.consigneeAddr}</ConsigneeAddr>
+			<!-- 收件人证件号 -->
+			<ConsigneeIdNo>${tr.importCheckHead.consigneeIdNo}</ConsigneeIdNo>
+			<!-- 录入日期 -->
+			<InputDate>${tr.importCheckHead.inputDate}</InputDate>
+			<!-- 企业进境自编号 -->
+			<EntImportNo>不知道填什么</EntImportNo>
+			<!-- 平台进境受理编号 -->
+			<EPortImportNo>不知道填什么</EPortImportNo>
+			<!-- 检验检疫进境受理编号 -->
+			<CIQImportNo>不知道填什么</CIQImportNo>
+			<!-- 操作方式：A-新增；M-修改；D-取消备案；（默认为新增） -->
+			<OpType>A</OpType>
+			<!--备注 -->
+			<Notes>${tr.importCheckHead.notes}</Notes>
+		</ImportHead>
+		<!--进境清单明细信息-->
+		<ImportList>
+	  <#list tr.lstContent as content>	
+			<!--进境清单商品描述-->
+			<ImportContent>
+				<!--监管仓名称-->
+				<DischargePlace>不知道填什么</DischargePlace>
+				<!--商品批次号-->
+				<GoodsBatchNo>${content.goodsBatchNo}</GoodsBatchNo>
+				<!--流水号-->
+				<Seq>不知道填什么</Seq>
+				<!--检验检疫商品备案编号-->
+				<CIQGoodsNo>${content.cIQGoodsNo}</CIQGoodsNo>
+				<!--商品名称-->
+				<GoodsName>${content.goodsName}</GoodsName>
+				<!--申报数量-->
+				<Qty>${content.qty}</Qty>
+				<!--申报单价-->
+				<DeclarePrice>${content.declarePrice}</DeclarePrice>
+				<!--申报总价-->
+				<DeclareTotalAmount>${content.declareTotalAmount}</DeclareTotalAmount>
+				<!--毛重-->
+				<GrossWeight>${content.grossWeight}</GrossWeight>
+				<!--净重-->
+				<NetWeight>${content.netWeight}</NetWeight>
+				<!--备注-->
+				<Notes>${content.notes}</Notes>
+			</ImportContent>
+		</#list>
+		</ImportList>
+	</Declaration>
+</InternationalTrade>

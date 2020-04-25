@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Manifest>
+  <Head>
+	<!-- 报文编号  -->
+    <MessageID>881101${tr.yyyyMMddHHmmSSS}</MessageID>
+    <!-- 业务类型（默认为0） -->
+	<FunctionCode>0</FunctionCode>
+	<!-- 报文类型 （默认为881104） -->
+    <MessageType>881101</MessageType>
+	<!-- 平台企业备案号 -->
+    <SenderID>PTE51411404010000001</SenderID>
+	<!-- 平台企业备案号 -->
+    <ReceiverID>PTE51411404010000001</ReceiverID>
+	<!-- 发送时间  -->
+    <SendTime>${tr.currentTime}</SendTime>
+	<!-- 版本 默认为1.0 -->
+    <Version>1</Version>
+  </Head>
+  <Declaration>
+	<EBill>
+		<!-- 商品申请编号 -->
+		<EntInsideNo>${tr.yyyyMMddHHmmSSS}</EntInsideNo>
+		<!-- 录入日期 -->
+		<InputDate>${tr.currentTime}</InputDate>
+		<!-- 申报日期 -->
+		<DeclareDate>${tr.currentTime}</DeclareDate>
+	</EBill>
+	<EBillLists>
+	<#list tr.goods as good>
+		<EBillList>
+			<!-- 商品序号 -->
+			<GNo>${good_index+1}</GNo>
+			<!-- 操作类型 -->
+			<OperatingType>A</OperatingType>
+			<!--商品货号  -->
+			<CopGNo>${good.copgno}</CopGNo>
+			<!--商品名称  -->
+			<GName>${good.gname}</GName>
+			<!--规格型号  -->
+			<GModel>${good.gmodel}</GModel>
+			<!--商品编码  -->
+			<CodeTS>${good.hscode}</CodeTS>
+			<!--申报计量单位  -->
+			<Unit>${good.unit}</Unit>
+			<!-- 申报单价 -->
+			<DecPrice>${good.rmb}</DecPrice>
+			<!-- 行邮税号 -->
+			<PostTariffCode>${good.posttariffcode}</PostTariffCode>
+			<!-- 毛重 -->
+			<GrossWt>${good.grosswt}</GrossWt>
+			<!--净重  -->
+			<NetWt>${good.netwt}</NetWt>
+			<!-- 进出口标志 -->
+			<IEFlag>I</IEFlag>
+			<!-- 行邮税名称 -->
+			<PostTariffName>${good.posttariffname}</PostTariffName>
+			<!-- 商品描述 -->
+			<GNote>${((good.hyperlink)!'')?xhtml}</GNote>
+		</EBillList>
+	</#list>
+	</EBillLists>
+  </Declaration>
+</Manifest>

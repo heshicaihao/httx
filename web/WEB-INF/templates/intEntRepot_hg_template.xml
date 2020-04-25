@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Manifest>
+  <Head>
+	<!-- 报文编号  -->
+    <MessageID>881103${tr.yyyyMMdd}${tr.entInsideNo}</MessageID>
+    <!-- 业务类型（默认为0） -->
+	<FunctionCode>0</FunctionCode>
+	<!-- 报文类型 （默认为881103） -->
+    <MessageType>881103</MessageType>
+	<!-- 平台企业备案号 -->
+    <SenderID>${tr.companyRegistNo}</SenderID>
+	<!-- 平台企业备案号 -->
+    <ReceiverID>${tr.companyRegistNo}</ReceiverID>
+	<!-- 发送时间  -->
+    <SendTime>${tr.currentTime}</SendTime>
+	<!-- 版本 默认为1.0 -->
+    <Version>1.0</Version>
+  </Head>
+  <Declaration>
+	<EBill>
+		<!-- 企业内部编号 -->
+		<EntInsideNo>${tr.entInsideNo}</EntInsideNo>
+		<!-- 申报地海关 -->
+		<MasterCustoms>5141</MasterCustoms>
+		<!-- 对应单据类型 -->
+		<CorrtDocType>0</CorrtDocType>
+		<!-- 对应单证编号 -->
+		<CorrDocCode>12215411</CorrDocCode>
+		<!-- 账册编号 -->
+		<EmsNo>P5141J140006</EmsNo>
+		<!-- 进出口岸 -->
+		<IoPort>5144</IoPort>
+		<!-- 监管方式 -->
+		<TradeMode>5112</TradeMode>
+		<!-- 进出仓日期 -->
+		<DrDate>${tr.currentTime}</DrDate>
+		<!-- 录入日期 -->
+		<InputDate>${tr.currentTime}</InputDate>
+		<!-- 备注  -->
+		<Nots></Nots>
+	</EBill>
+	<EBillLists>
+	<#list tr.detailsList as good>
+		<EBillList>
+			<!-- 商品序号 -->
+			<GNo>${good_index+1}</GNo>
+			<!-- 商品海关备案号 -->
+			<CustomsListNO >${good.registNo}</CustomsListNO>
+			<!--申报计量单位  -->
+			<Unit>${good.unit_code}</Unit>
+			<!--申报数量  -->
+			<Qty>${good.gqty}</Qty>
+			<!-- 申报单价 -->
+			<DecPrice>${good.decprice}</DecPrice>
+			<!-- 申报总价 -->
+			<DecTotal>${good.decltotal}</DecTotal>
+			<!-- 毛重 -->
+			<GrossWt>${good.grosswt}</GrossWt>
+			<!--净重  -->
+			<NetWt>${good.netwt}</NetWt>
+			<!-- 备注 -->
+			<Nots>${good.note}</Nots>
+		</EBillList>
+	</#list>
+	</EBillLists>
+  </Declaration>
+</Manifest>

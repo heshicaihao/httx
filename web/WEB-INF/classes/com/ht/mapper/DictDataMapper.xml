@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ht.mapper.DictDataMapper" >
+	<select id="listAllCountries" resultType="DictData">
+		SELECT COUNTRY_CODE as codeNo,COUN_C_NAME as codeName FROM contry_code
+	</select>
+	
+	<select id="listAllUnits" resultType="DictData">
+		SELECT UNIT_CODE as codeNo,UNIT_name as codeName FROM unit_code
+	</select>
+	
+	<select id="listAllCurrency" resultType="DictData">
+		SELECT CURR_CODE as codeNo,CURR_NAME as codeName FROM curr_code
+	</select>
+</mapper>

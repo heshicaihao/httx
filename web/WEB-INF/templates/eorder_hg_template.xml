@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Manifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Head>
+		<MessageID>880020${tr.yyyyMMddHHmmSSS}</MessageID>
+		<FunctionCode>0</FunctionCode>
+		<MessageType>880020</MessageType>
+		<SenderID>PTE51411404010000001</SenderID>
+		<SendTime>${tr.currentTime}</SendTime>
+		<Version>1</Version>
+	</Head>
+	<Declaration>
+		<EOrder>
+			<OrderId>${tr.order.orderId}</OrderId>
+			<IEFlag>I</IEFlag>
+			<OrderStatus>${tr.order.orderStatus}</OrderStatus>
+			<EntRecordNo>${tr.order.entRecordNo}</EntRecordNo>
+			<EntRecordName>${tr.order.entRecordName}</EntRecordName>
+			<OrderName>${tr.order.orderName}</OrderName>
+			<OrderDocType>01</OrderDocType>
+			<OrderDocId>${tr.order.orderDocId}</OrderDocId>
+			<OrderPhone>${tr.order.orderPhone}</OrderPhone>
+			<OrderGoodTotal>${tr.order.orderGoodTotal}</OrderGoodTotal>
+			<OrderGoodTotalCurr>142</OrderGoodTotalCurr>
+			<Freight>${tr.order.freight}</Freight>
+			<FreightCurr>142</FreightCurr>
+			<Tax>${tr.order.tax}</Tax>
+			<TaxCurr>142</TaxCurr>
+			<OrderDate>${tr.order.orderDate}</OrderDate>
+		</EOrder>
+		<EOrderGoods>
+			<#list tr.goods as good>
+			<EOrderGood>
+				<GNo>${good_index + 1}</GNo>
+				<ChildOrderNo>${tr.order.orderId}0${good_index + 1}</ChildOrderNo>
+				<StoreRecordNo>PTE51411404010000001</StoreRecordNo>
+				<StoreRecordName>广州荟星电子商务有限公司</StoreRecordName>
+				<CustomsListNO>${good.customsListNO}</CustomsListNO>
+				<DecPrice>${good.decPrice}</DecPrice>
+				<Unit>${good.unit}</Unit>
+				<GQty>${good.gQty}</GQty>
+				<DeclTotal>${good.declTotal}</DeclTotal>
+			</EOrderGood>
+			</#list>
+		</EOrderGoods>
+	</Declaration>
+</Manifest>

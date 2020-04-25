@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property name="LOG_DIR" value="${user.dir}/log"></property>
+    <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
+            by default-->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">		
+		<encoder>
+			<pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level: %msg [%thread] %logger{35}%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<prudent>true</prudent>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_DIR:-}/gm.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{35}-%msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- level values: TRACE,DEBUG,INFO,WARN,ERROR,ALL,OFF -->
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+	</root>
+	
+
+</configuration>
+

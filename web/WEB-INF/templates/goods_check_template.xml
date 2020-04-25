@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<InternationalTrade>
+	<!--报文头-->
+	<Head>
+		<!-- 报文编号 -->
+		<MessageID>881101${tr.sysdate}</MessageID>
+		<!-- 报文类型 -->
+		<MessageType>881101</MessageType>
+		<!-- 报文发送者标识 -->
+		<Sender>GZEPORT001</Sender>
+		<!-- 报文接收人标识 -->
+		<Receiver>CIQ100100</Receiver>
+		<!-- 发送时间 -->
+		<SendTime>${tr.sysdate}</SendTime>
+		<!-- 业务类型 -->
+		<FunctionCode>100100</FunctionCode>
+		<!--版本 默认为1.0-->
+		<Version>1</Version>
+	</Head>
+	<!--报文体-->
+	<Declaration>
+		<!-- 商品备案头信息 -->
+		<GoodsRegHead>
+			<!-- 申报企业编号 -->
+			<CIQEntRegNo>1400000008</CIQEntRegNo>
+			<!-- 代理申报企业编号 -->
+			<AgentEntNo>1400000008</AgentEntNo>
+			<!--检验检疫机构-->
+			<OrgCode>440070</OrgCode>
+			<!-- 录入时间 -->
+			<InputDate>${tr.sysdate}</InputDate>
+			<!-- 操作方式：A-新增；M-修改；D-取消备案；（默认为新增） -->
+			<OpType>A</OpType>
+			<!-- 备注 -->
+			<Notes>无</Notes>
+
+		</GoodsRegHead>
+		<!--商品备案明细清单-->
+		<GoodsRegList>
+			<!--商品备案明细信息  -->
+			<#list tr.goods as good>
+			<GoodsContent>
+				<!--企业商品自编号  -->
+				<EntGoodsNo>${good.usergoodscode}</EntGoodsNo>
+				<!-- 电商平台商品备案申请号 -->
+				<EportGoodsNo>${good.usergoodscode}</EportGoodsNo>
+				<!--HS编码  -->
+				<HSCode>${good.hscode}</HSCode>
+				<!--商品名称  -->
+				<GoodsName>${good.goodsenname}</GoodsName>
+				<!--检验检疫备案备案编号，新增时为空  -->
+				<CIQGoodsNo></CIQGoodsNo>
+				<!--型号规格  -->
+				<GoodsStyle>${good.gmodel}</GoodsStyle>
+				<!-- 标准计量单位kg -->
+				<StdUnit>${good.unit}</StdUnit>
+				<SecUnit>${good.unit}</SecUnit>
+				<!--生产厂家  -->
+				<Manufactory>${good.manufactory}</Manufactory>
+				<!--品牌  -->
+				<Brand>${good.brand}</Brand>
+				<!-- 商品品质 -->
+				<Quality>好</Quality>
+				<!-- 品质证明 -->
+				<QualityCertify></QualityCertify>
+				<!-- 备注 -->
+				<Notes>无</Notes>
+			</GoodsContent>
+</#list>
+		</GoodsRegList>
+	</Declaration>
+</InternationalTrade>

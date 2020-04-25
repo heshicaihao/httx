@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ht.mapper.OrderInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.ht.model.OrderInfo" >
+    <id column="OrderId" property="orderid" jdbcType="VARCHAR" />
+    <result column="companyID" property="companyid" jdbcType="INTEGER" />
+    <result column="EntRecordNo" property="entrecordno" jdbcType="VARCHAR" />
+    <result column="EntRecordName" property="entrecordname" jdbcType="INTEGER" />
+    <result column="OrderName" property="ordername" jdbcType="VARCHAR" />
+    <result column="OrderDocId" property="orderdocid" jdbcType="VARCHAR" />
+    <result column="OrderAddress" property="orderaddress" jdbcType="VARCHAR" />
+    <result column="OrderPhone" property="orderphone" jdbcType="VARCHAR" />
+    <result column="OrderDate" property="orderdate" jdbcType="TIMESTAMP" />
+    <result column="OrderStatus" property="orderstatus" jdbcType="VARCHAR" />
+    <result column="OrderGoodTotal" property="ordergoodtotal" jdbcType="DECIMAL" />
+    <result column="Freight" property="freight" jdbcType="DECIMAL" />
+    <result column="Tax" property="tax" jdbcType="DECIMAL" />
+    <result column="OrderGoodTotalCurr" property="ordergoodtotalcurr" jdbcType="VARCHAR" />
+    <result column="Note" property="note" jdbcType="VARCHAR" />
+    <result column="Createruserid" property="createruserid" jdbcType="INTEGER" />
+    <result column="Ewaysnum" property="ewaysnum" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="OrderDocType" property="orderdoctype" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="INTEGER" />
+    <result column="city" property="city" jdbcType="INTEGER" />
+    <result column="area" property="area" jdbcType="INTEGER" />
+    <result column="loading_no" property="loading_no" jdbcType="VARCHAR" />
+    <result column="pickgoodsno" property="pickgoodsno" jdbcType="VARCHAR" />
+    <result column="firstcreatename" property="firstcreatename" jdbcType="VARCHAR" />     
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    i.OrderId, i.companyID, i.EntRecordNo, i.EntRecordName, i.OrderName, i.OrderDocId, i.OrderAddress, 
+    i.OrderPhone, i.OrderDate, i.OrderStatus, i.OrderGoodTotal, i.Freight, i.Tax, i.OrderGoodTotalCurr, 
+    i.Note, i.Createruserid, i.Ewaysnum, i.status, i.OrderDocType,i.province, i.city, i.area,i.loading_no,i.firstcreatename,
+    c.name as companyName,u.gmusername as customerName,p.`NAME` provincename,q.`NAME` cityname,a.`NAME` areaname,i.pickgoodsno
+    from order_info i inner join company c on c.id=i.companyid
+    inner join gmuser u on u.instkey=i.EntRecordName
+    LEFT JOIN  province p  ON i.`province` = p.id
+	LEFT JOIN  city q  ON i.`city` = q.id
+	LEFT JOIN  `area` a  ON i.`area` = a.id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ht.model.OrderInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="offset != null">
+        limit #{offset},#{rows }
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    where OrderId = #{orderid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from order_info
+    where OrderId = #{orderid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ht.model.OrderInfoExample" >
+    delete from order_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ht.model.OrderInfo" >
+    insert into order_info (OrderId, companyID, EntRecordNo, 
+      EntRecordName, OrderName, OrderDocId, 
+      OrderAddress, OrderPhone, OrderDate, 
+      OrderStatus, OrderGoodTotal, Freight, 
+      Tax, OrderGoodTotalCurr, Note, 
+      Createruserid, Ewaysnum, status, 
+      OrderDocType,province,city,area,firstcreatename)
+    values (#{orderid,jdbcType=VARCHAR}, #{companyid,jdbcType=INTEGER}, #{entrecordno,jdbcType=VARCHAR}, 
+      #{entrecordname,jdbcType=INTEGER}, #{ordername,jdbcType=VARCHAR}, #{orderdocid,jdbcType=VARCHAR}, 
+      #{orderaddress,jdbcType=VARCHAR}, #{orderphone,jdbcType=VARCHAR}, #{orderdate,jdbcType=TIMESTAMP}, 
+      #{orderstatus,jdbcType=VARCHAR}, #{ordergoodtotal,jdbcType=DECIMAL}, #{freight,jdbcType=DECIMAL}, 
+      #{tax,jdbcType=DECIMAL}, #{ordergoodtotalcurr,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{createruserid,jdbcType=INTEGER}, #{ewaysnum,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{orderdoctype,jdbcType=VARCHAR},#{province,jdbcType=INTEGER},#{city,jdbcType=INTEGER},#{area,jdbcType=INTEGER},#{firstcreatename,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ht.model.OrderInfo" >
+    insert into order_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        OrderId,
+      </if>
+      <if test="companyid != null" >
+        companyID,
+      </if>
+      <if test="entrecordno != null" >
+        EntRecordNo,
+      </if>
+      <if test="entrecordname != null" >
+        EntRecordName,
+      </if>
+      <if test="ordername != null" >
+        OrderName,
+      </if>
+      <if test="orderdocid != null" >
+        OrderDocId,
+      </if>
+      <if test="orderaddress != null" >
+        OrderAddress,
+      </if>
+      <if test="orderphone != null" >
+        OrderPhone,
+      </if>
+      <if test="orderdate != null" >
+        OrderDate,
+      </if>
+      <if test="orderstatus != null" >
+        OrderStatus,
+      </if>
+      <if test="ordergoodtotal != null" >
+        OrderGoodTotal,
+      </if>
+      <if test="freight != null" >
+        Freight,
+      </if>
+      <if test="tax != null" >
+        Tax,
+      </if>
+      <if test="ordergoodtotalcurr != null" >
+        OrderGoodTotalCurr,
+      </if>
+      <if test="note != null" >
+        Note,
+      </if>
+      <if test="createruserid != null" >
+        Createruserid,
+      </if>
+      <if test="ewaysnum != null" >
+        Ewaysnum,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="orderdoctype != null" >
+        OrderDocType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="companyid != null" >
+        #{companyid,jdbcType=INTEGER},
+      </if>
+      <if test="entrecordno != null" >
+        #{entrecordno,jdbcType=VARCHAR},
+      </if>
+      <if test="entrecordname != null" >
+        #{entrecordname,jdbcType=INTEGER},
+      </if>
+      <if test="ordername != null" >
+        #{ordername,jdbcType=VARCHAR},
+      </if>
+      <if test="orderdocid != null" >
+        #{orderdocid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderaddress != null" >
+        #{orderaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderphone != null" >
+        #{orderphone,jdbcType=VARCHAR},
+      </if>
+      <if test="orderdate != null" >
+        #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderstatus != null" >
+        #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ordergoodtotal != null" >
+        #{ordergoodtotal,jdbcType=DECIMAL},
+      </if>
+      <if test="freight != null" >
+        #{freight,jdbcType=DECIMAL},
+      </if>
+      <if test="tax != null" >
+        #{tax,jdbcType=DECIMAL},
+      </if>
+      <if test="ordergoodtotalcurr != null" >
+        #{ordergoodtotalcurr,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createruserid != null" >
+        #{createruserid,jdbcType=INTEGER},
+      </if>
+      <if test="ewaysnum != null" >
+        #{ewaysnum,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="orderdoctype != null" >
+        #{orderdoctype,jdbcType=VARCHAR},
+      </if>
+      <if test="firstcreatename != null" >
+      #{firstcreatename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ht.model.OrderInfoExample" resultType="java.lang.Integer" >
+    select count(*) from order_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update order_info
+    <set >
+      <if test="record.orderid != null" >
+        OrderId = #{record.orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyid != null" >
+        companyID = #{record.companyid,jdbcType=INTEGER},
+      </if>
+      <if test="record.entrecordno != null" >
+        EntRecordNo = #{record.entrecordno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entrecordname != null" >
+        EntRecordName = #{record.entrecordname,jdbcType=INTEGER},
+      </if>
+      <if test="record.ordername != null" >
+        OrderName = #{record.ordername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderdocid != null" >
+        OrderDocId = #{record.orderdocid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderaddress != null" >
+        OrderAddress = #{record.orderaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderphone != null" >
+        OrderPhone = #{record.orderphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderdate != null" >
+        OrderDate = #{record.orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderstatus != null" >
+        OrderStatus = #{record.orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordergoodtotal != null" >
+        OrderGoodTotal = #{record.ordergoodtotal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.freight != null" >
+        Freight = #{record.freight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.tax != null" >
+        Tax = #{record.tax,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ordergoodtotalcurr != null" >
+        OrderGoodTotalCurr = #{record.ordergoodtotalcurr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.note != null" >
+        Note = #{record.note,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createruserid != null" >
+        Createruserid = #{record.createruserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.ewaysnum != null" >
+        Ewaysnum = #{record.ewaysnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderdoctype != null" >
+        OrderDocType = #{record.orderdoctype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderdoctype != null" >
+        pickgoodsno = #{record.pickgoodsno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.firstcreatename != null" >
+        firstcreatename =#{firstcreatename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update order_info
+    set OrderId = #{record.orderid,jdbcType=VARCHAR},
+      companyID = #{record.companyid,jdbcType=INTEGER},
+      EntRecordNo = #{record.entrecordno,jdbcType=VARCHAR},
+      EntRecordName = #{record.entrecordname,jdbcType=INTEGER},
+      OrderName = #{record.ordername,jdbcType=VARCHAR},
+      OrderDocId = #{record.orderdocid,jdbcType=VARCHAR},
+      OrderAddress = #{record.orderaddress,jdbcType=VARCHAR},
+      OrderPhone = #{record.orderphone,jdbcType=VARCHAR},
+      OrderDate = #{record.orderdate,jdbcType=TIMESTAMP},
+      OrderStatus = #{record.orderstatus,jdbcType=VARCHAR},
+      OrderGoodTotal = #{record.ordergoodtotal,jdbcType=DECIMAL},
+      Freight = #{record.freight,jdbcType=DECIMAL},
+      Tax = #{record.tax,jdbcType=DECIMAL},
+      OrderGoodTotalCurr = #{record.ordergoodtotalcurr,jdbcType=VARCHAR},
+      Note = #{record.note,jdbcType=VARCHAR},
+      Createruserid = #{record.createruserid,jdbcType=INTEGER},
+      Ewaysnum = #{record.ewaysnum,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      OrderDocType = #{record.orderdoctype,jdbcType=VARCHAR},
+      province = #{record.province,jdbcType=INTEGER},
+      city = #{record.city,jdbcType=INTEGER},
+      area = #{record.area,jdbcType=INTEGER},
+      pickgoodsno = #{record.pickgoodsno,jdbcType=VARCHAR},
+      firstcreatename = #{record.firstcreatename,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ht.model.OrderInfo" >
+    update order_info
+    <set >
+      <if test="companyid != null" >
+        companyID = #{companyid,jdbcType=INTEGER},
+      </if>
+      <if test="entrecordno != null" >
+        EntRecordNo = #{entrecordno,jdbcType=VARCHAR},
+      </if>
+      <if test="entrecordname != null" >
+        EntRecordName = #{entrecordname,jdbcType=INTEGER},
+      </if>
+      <if test="ordername != null" >
+        OrderName = #{ordername,jdbcType=VARCHAR},
+      </if>
+      <if test="orderdocid != null" >
+        OrderDocId = #{orderdocid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderaddress != null" >
+        OrderAddress = #{orderaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderphone != null" >
+        OrderPhone = #{orderphone,jdbcType=VARCHAR},
+      </if>
+      <if test="orderdate != null" >
+        OrderDate = #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderstatus != null" >
+        OrderStatus = #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ordergoodtotal != null" >
+        OrderGoodTotal = #{ordergoodtotal,jdbcType=DECIMAL},
+      </if>
+      <if test="freight != null" >
+        Freight = #{freight,jdbcType=DECIMAL},
+      </if>
+      <if test="tax != null" >
+        Tax = #{tax,jdbcType=DECIMAL},
+      </if>
+      <if test="ordergoodtotalcurr != null" >
+        OrderGoodTotalCurr = #{ordergoodtotalcurr,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        Note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createruserid != null" >
+        Createruserid = #{createruserid,jdbcType=INTEGER},
+      </if>
+      <if test="ewaysnum != null" >
+        Ewaysnum = #{ewaysnum,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="orderdoctype != null" >
+        OrderDocType = #{orderdoctype,jdbcType=VARCHAR},
+      </if>
+            <if test="province != null" >
+        province = #{province,jdbcType=INTEGER},
+      </if>
+            <if test="city != null" >
+        city = #{city,jdbcType=INTEGER},
+      </if>
+            <if test="area != null" >
+        area = #{area,jdbcType=INTEGER},
+      </if>
+       <if test="loading_no != null" >
+        loading_no = #{loading_no,jdbcType=VARCHAR},
+      </if>
+      <if test="releasedDate != null" >
+        releasedDate = #{releasedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pickgoodsno != null" >
+       pickgoodsno = #{pickgoodsno,jdbcType=VARCHAR},
+      </if>      
+
+    </set>
+    where OrderId = #{orderid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ht.model.OrderInfo" >
+    update order_info
+    set companyID = #{companyid,jdbcType=INTEGER},
+      EntRecordNo = #{entrecordno,jdbcType=VARCHAR},
+      EntRecordName = #{entrecordname,jdbcType=INTEGER},
+      OrderName = #{ordername,jdbcType=VARCHAR},
+      OrderDocId = #{orderdocid,jdbcType=VARCHAR},
+      OrderAddress = #{orderaddress,jdbcType=VARCHAR},
+      OrderPhone = #{orderphone,jdbcType=VARCHAR},
+      OrderDate = #{orderdate,jdbcType=TIMESTAMP},
+      OrderStatus = #{orderstatus,jdbcType=VARCHAR},
+      OrderGoodTotal = #{ordergoodtotal,jdbcType=DECIMAL},
+      Freight = #{freight,jdbcType=DECIMAL},
+      Tax = #{tax,jdbcType=DECIMAL},
+      OrderGoodTotalCurr = #{ordergoodtotalcurr,jdbcType=VARCHAR},
+      Note = #{note,jdbcType=VARCHAR},
+      Createruserid = #{createruserid,jdbcType=INTEGER},
+      Ewaysnum = #{ewaysnum,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      OrderDocType = #{orderdoctype,jdbcType=VARCHAR}
+    where OrderId = #{orderid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectUserGoodsByPrimaryKey" resultType="com.ht.model.UserGoods" parameterType="java.lang.String" >
+    select u.`INSTKEY`,u.`GOODSID`    from usergoods u where u.INSTKEY= #{instkey,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectFlownumberFromDB" resultType="com.ht.model.OrderFlowNumber"  >
+    select f.`customerId`,f.`flownumber` FROM `order_flow_num` f WHERE f.`customerId`=#{customerId,jdbcType=INTEGER}
+   </select>
+   <select id="selectFlownumberFromDB2" resultType="com.ht.model.OrderFlowNumber">
+    select _nextval(#{customerId,jdbcType=INTEGER}) as flownumber;
+   </select>   
+   <insert id="insertFlownumberFromDB2" >
+    insert into tb_sequence (USERID,current_value,_increment) values(#{customerId,jdbcType=INTEGER},1,1); 
+   </insert>
+    <insert id="insertFlownumberFromDB" >    
+     insert into order_flow_num (customerId,flownumber) VALUES(#{customerId,jdbcType=INTEGER},1)
+   </insert>
+   
+    <update id="updateFlownumberFromDB">    
+     update order_flow_num f SET f.`flownumber` =f.`flownumber` +1
+			WHERE f.`customerId`=#{customerId,jdbcType=INTEGER}
+   </update>
+   
+   <select id="listLoadingPage" resultType="LoadingOrder" parameterType="Map">
+    select i.OrderId,i.EntRecordNo, i.EntRecordName, i.OrderName, i.OrderDate, i.status,i.loading_no,
+    c.name as companyName,u.gmusername as customerName,i.pickgoodsno
+    from order_info i inner join company c on c.id=i.companyid
+    inner join gmuser u on u.instkey=i.EntRecordName
+    where i.status='1'
+    <if test="null != startDate">
+         <![CDATA[and i.orderDate>=#{startDate}]]>
+    </if>
+    <if test="null != unloading">
+        and (i.loading_no is null or trim(i.loading_no)='') 
+    </if>
+    <if test="null != loadingNoLike">
+        and ucase(i.loading_no) like #{loadingNoLike}
+    </if>
+    <if test="null != orderIdLike">
+        and ucase(i.orderid) like #{orderIdLike}
+    </if>
+    <if test="null != endDate">
+        <![CDATA[and i.orderDate<=#{endDate}]]>
+    </if>
+  </select>
+   
+  <select id="selectOrderNameByOrderdocid" resultType="com.ht.model.OrderInfo" parameterType="java.lang.String" >
+     SELECT DISTINCT `OrderName` ,`OrderDocId` FROM `order_info` WHERE OrderDocId =#{orderdocid,jdbcType=VARCHAR} LIMIT 0 ,1 
+  </select>
+   
+</mapper>

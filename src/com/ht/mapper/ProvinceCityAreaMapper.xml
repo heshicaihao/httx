@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ht.mapper.ProvinceCityAreaMapper" >
+	<select id="listAllProvinces" resultType="ProvinceCityArea">
+		SELECT ID,NAME FROM PROVINCE
+	</select>
+	<select id="listCitiesByProvinceId" resultType="ProvinceCityArea" parameterType="int">
+		SELECT ID,NAME,PROVINCEID as parentID FROM CITY where 1=1 
+		<if test="null != parentId">
+			AND provinceId=#{parentId}
+		</if>
+	</select>
+	
+	<select id="listAreasByCityId" resultType="ProvinceCityArea" parameterType="int">
+		SELECT ID,NAME,cityid as parentID FROM area where 1=1 
+		<if test="null != parentId">and cityId=#{parentId}</if>
+	</select>
+	
+	<select id="listAll" resultType="ProvinceCityArea">
+	    select p.id as provinceid,p.name as provincename,
+	           c.id as cityid,c.name as cityname,
+	           a.id as areaid,a.name as areaname 
+	    from province p 
+	    left join city c on p.id=c.provinceid 
+	    left join area a on a.cityid=c.id
+	</select>
+</mapper>

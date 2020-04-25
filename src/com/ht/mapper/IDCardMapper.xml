@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ht.mapper.IDCardMapper">
+
+    <insert id="add" parameterType="IDCard">
+        INSERT INTO IDCARD(NAME,CARDNO,CREATEDATE)
+        VALUES(#{name,jdbcType=VARCHAR},#{cardNo,jdbcType=VARCHAR},CURRENT_TIMESTAMP)
+    </insert>
+    
+    <select id="listPage" parameterType="IDCard" resultType="IDCard">
+        select id,name,cardno,CREATEDATE from idcard 
+        where 1=1
+        <if test="name != null and name !=''">
+            AND name like #{nameLike}
+        </if>
+        <if test="cardNo != null and cardNo !=''">
+            AND cardNo like #{cardNoLike}
+        </if>
+        <if test="startDate != null and startDate !=''">
+            <![CDATA[AND CREATEDATE>=#{startDate}]]>
+        </if>
+        <if test="endDate != null and endDate !=''">
+            <![CDATA[AND CREATEDATE<=#{endDate}]]>
+        </if>
+        ORDER BY NAME
+        <if test="offset != null">
+            limit #{offset},#{rows}
+        </if>
+    </select>
+    
+    <select id="count" parameterType="IDCard" resultType="Int">
+        select count(1) from idcard 
+        where 1=1
+        <if test="name != null and name !=''">
+            AND name like #{nameLike}
+        </if>
+        <if test="cardNo != null and cardNo !=''">
+            AND cardNo like #{cardNoLike}
+        </if>
+        <if test="startDate != null and startDate !=''">
+            <![CDATA[AND CREATEDATE>=#{startDate}]]>
+        </if>
+        <if test="endDate != null and endDate !=''">
+            <![CDATA[AND CREATEDATE<=#{endDate}]]>
+        </if>
+    </select>
+    
+    <select id="getByName" parameterType="String" resultType="IDCard">
+        SELECT * fROM IDCARD WHERE UCASE(NAME)=#{name}
+    </select>
+    
+    <select id="getByCardNo" parameterType="String" resultType="IDCard">
+        SELECT * fROM IDCARD WHERE UCASE(CardNo)=#{cardNo}
+    </select>
+    
+    <delete id="del">
+        delete from idcard where id=#{id}
+    </delete>
+</mapper>

@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ht.mapper.ReportMapper">
+    <select id="orderListByDate" resultType="Report" parameterType="Report">
+         SELECT o.orderid AS orderno,o.EntRecordNo, ug.instkey usergoodscode, u.gmusername as custname, g.CopGNo,g.gname as goodDesc,
+            og.GQty,uit.unit_name as unit,og.DeclTotal,g.GrossWt*og.gqty as totalWT,o.Ewaysnum,o.OrderName as recname,
+            o.OrderPhone as reccellno,o.OrderAddress as recaddr,(case when o.status+0>=1 then '出库' else '清关中' end) as statusStr,DATE_FORMAT(o.releasedDate, '%Y-%m-%d %T') as dealtime,
+            og.Note as remark,u2.loginName as username, p.name as province, c.name as City,e.NoticeNo
+        FROM order_info o
+        inner join order_goods og on o.orderid=og.orderid
+        inner join goods g on g.id=og.goodsid
+        inner join usergoods ug on ug.goodsid=g.id and ug.userkey=o.EntRecordName
+        inner join gmuser u on u.instkey=ug.userkey
+        inner join unit_code uit on uit.unit_code=g.unit
+        inner join province p on p.id=o.province
+        inner join city c on c.id=o.city
+        inner join area A on a.id=o.area
+        left join ewaybill e on e.orderid=o.orderid
+        LEFT join account u2 on u2.id=o.Createruserid
+        WHERE o.status+0>=1
+         <if test="startDateD != null">
+            <![CDATA[AND o.releasedDate>=#{startDateD}]]>
+        </if>
+        <if test="endDateD != null">
+            <![CDATA[AND o.releasedDate<=#{endDateD}]]>
+        </if>
+        <if test="custid != null">
+            AND o.EntRecordName=#{custid}
+        </if>
+        <if test="orderno != null and orderno !=''">
+            AND o.orderid like #{ordernoLike}
+        </if>
+        <if test="entRecordNo != null and entRecordNo !=''">
+            AND o.entRecordNo like #{entRecordNoLike}
+        </if>
+        <if test="usergoodscode != null and usergoodscode !=''">
+            AND ug.instkey like #{usergoodscodeLike}
+        </if>
+        <if test="recname != null and recname !=''">
+            AND o.OrderName like #{recnameLike}
+        </if>
+        order by o.orderid,o.EntRecordName,o.releasedDate
+        <if test="offset != null">
+            limit #{offset},#{rows}
+        </if>
+    </select>
+    
+    <select id="countOrderByDate" resultType="Int" parameterType="Report">
+        SELECT  count(1)
+        FROM order_info o
+        inner join order_goods og on o.orderid=og.orderid
+        inner join goods g on g.id=og.goodsid
+        inner join usergoods ug on ug.goodsid=g.id and ug.userkey=o.EntRecordName
+        inner join gmuser u on u.instkey=ug.userkey
+        inner join unit_code uit on uit.unit_code=g.unit
+        LEFT join account u2 on u2.id=o.Createruserid
+        WHERE o.status+0>=1
+         <if test="startDateD != null">
+            <![CDATA[AND o.OrderDate>=#{startDateD}]]>
+        </if>
+        <if test="endDateD != null">
+            <![CDATA[AND o.OrderDate<=#{endDateD}]]>
+        </if>
+        <if test="custid != null">
+            AND o.EntRecordName=#{custid}
+        </if>
+        <if test="orderno != null and orderno !=''">
+            AND o.orderid like #{ordernoLike}
+        </if>
+        <if test="entRecordNo != null and entRecordNo !=''">
+            AND o.entRecordNo like #{entRecordNoLike}
+        </if>
+        <if test="usergoodscode != null and usergoodscode !=''">
+            AND ug.instkey like #{usergoodscodeLike}
+        </if>
+        <if test="recname != null and recname !=''">
+            AND o.OrderName like #{recnameLike}
+        </if>
+    </select>
+
+    <select id="orderListByDate4Export" resultType="Report" parameterType="Report">
+        SELECT o.orderid AS orderno, o.EntRecordNo, ug.instkey usergoodscode, u.gmusername as custname, g.CopGNo,g.gname as goodDesc,
+            og.GQty,uit.unit_name as unit,og.DeclTotal,g.GrossWt*og.gqty as totalWT,o.Ewaysnum,o.OrderName as recname,
+            o.OrderPhone as reccellno,o.OrderAddress as recaddr,(case when o.status>=1 then '出库' else '清关中' end) as statusStr,DATE_FORMAT(o.releasedDate, '%Y-%m-%d %T') as dealtime,
+            og.Note as remark,u2.loginName as username, p.name as province, c.name as City,e.NoticeNo
+        FROM order_info o
+        inner join order_goods og on o.orderid=og.orderid
+        inner join goods g on g.id=og.goodsid
+        inner join usergoods ug on ug.goodsid=g.id and ug.userkey=o.EntRecordName
+        inner join gmuser u on u.instkey=ug.userkey
+        inner join unit_code uit on uit.unit_code=g.unit
+        inner join province p on p.id=o.province
+        inner join city c on c.id=o.city
+        inner join area A on a.id=o.area
+        left join ewaybill e on e.orderid=o.orderid
+        LEFT join account u2 on u2.id=o.Createruserid
+        WHERE o.status+0>=1
+         <if test="startDateD != null">
+            <![CDATA[AND o.releasedDate>=#{startDateD}]]>
+        </if>
+        <if test="endDateD != null">
+            <![CDATA[AND o.releasedDate<=#{endDateD}]]>
+        </if>
+        <if test="custid != null">
+            AND o.EntRecordName=#{custid}
+        </if>
+        <if test="orderno != null and orderno !=''">
+            AND o.orderid like #{ordernoLike}
+        </if>
+        <if test="entRecordNo != null and entRecordNo !=''">
+            AND o.entRecordNo like #{entRecordNoLike}
+        </if>
+        <if test="usergoodscode != null and usergoodscode !=''">
+            AND ug.instkey like #{usergoodscodeLike}
+        </if>
+        <if test="recname != null and recname !=''">
+            AND o.OrderName like #{recnameLike}
+        </if>
+        order by o.orderid,o.EntRecordName,o.releasedDate
+    </select>
+
+    <select id="storagelistByDate" parameterType="Report" resultType="Report">
+        select ug.instkey as usergoodscode,t.batchno,
+		       DATE_FORMAT(t.writedate,'%Y-%m-%d %T') as writeDate,
+		       uc.unit_name as custUnit,t.CurrentInventory,g.gmodel,
+		       g.gname as goodDesc,g.copgno,u.gmusername as custName
+		from (
+		    select td.goodsid,td.batchno,i.custid,sum(td.currentinventory) as currentinventory,Date(td.lastupdate) as writedate
+		    from int_entrepot_detail td 
+		    inner join int_entrepot i on i.id = td.entrepotid
+		    where currentinventory>0
+		    <if test="startDateD != null">
+	            <![CDATA[AND td.lastupdate>=#{startDateD}]]>
+	        </if>
+	        <if test="endDateD != null">
+	            <![CDATA[AND td.lastupdate<=#{endDateD}]]>
+	        </if>
+	        <if test="custid != null">
+	            AND i.CUSTID=#{custid}
+	        </if>
+		    group by td.goodsid,td.batchno,i.custid,Date(td.lastupdate)
+		) as t inner join goods g on g.id=t.goodsid
+		inner join usergoods ug on ug.goodsid=t.goodsid and t.custid=ug.userkey
+		inner join gmuser u on u.instkey=ug.userkey and u.instkey=t.custid 
+		inner join unit_code uc on uc.unit_code=g.unit
+		where 1=1
+		<if test="usergoodscode != null and usergoodscode != ''">
+            AND UCASE(ug.instkey) like #{usergoodscodeLike}
+        </if>
+        ORDER BY UG.INSTKEY,t.batchno,T.CUSTID,T.writedate
+        <if test="offset != null">
+            limit #{offset},#{rows}
+        </if>
+    </select>
+    
+    <select id="sumStoragelistByDate" parameterType="Report" resultType="Report">
+        select ug.instkey as usergoodscode,
+               DATE_FORMAT(t.writedate,'%Y-%m-%d %T') as writeDate,
+               uc.unit_name as custUnit,t.CurrentInventory,g.gmodel,
+               g.gname as goodDesc,g.copgno,u.gmusername as custName
+        from (
+            select td.goodsid,i.custid,sum(td.currentinventory) as currentinventory,max(td.lastupdate) as writedate
+            from int_entrepot_detail td 
+            inner join int_entrepot i on i.id = td.entrepotid
+            where currentinventory>0
+            <if test="startDateD != null">
+                <![CDATA[AND td.lastupdate>=#{startDateD}]]>
+            </if>
+            <if test="endDateD != null">
+                <![CDATA[AND td.lastupdate<=#{endDateD}]]>
+            </if>
+            <if test="custid != null">
+                AND i.CUSTID=#{custid}
+            </if>
+            group by td.goodsid,i.custid
+        ) as t inner join goods g on g.id=t.goodsid
+        inner join usergoods ug on ug.goodsid=t.goodsid and t.custid=ug.userkey
+        inner join gmuser u on u.instkey=ug.userkey and u.instkey=t.custid 
+        inner join unit_code uc on uc.unit_code=g.unit
+        where 1=1
+        <if test="usergoodscode != null and usergoodscode != ''">
+            AND UCASE(ug.instkey) like #{usergoodscodeLike}
+        </if>
+        ORDER BY UG.INSTKEY,T.CUSTID,T.writedate
+        <if test="offset != null">
+            limit #{offset},#{rows}
+        </if>
+    </select>
+    
+    <select id="countStorage" parameterType="Report" resultType="int">
+    SELECT count(1)
+        FROM int_entrepot t 
+        inner join int_entrepot_detail td on t.id = td.entrepotid
+        inner join goods g on g.id = td.goodsid 
+        inner join usergoods ug on ug.goodsid=td.goodsid and t.custid=ug.userkey
+        inner join gmuser u on u.instkey=ug.userkey and u.instkey=t.custid 
+        inner join unit_code uc on uc.unit_code=g.unit
+        WHERE td.CurrentInventory>0
+        <if test="startDateD != null">
+            <![CDATA[AND t.writeDate>=#{startDateD}]]>
+        </if>
+        <if test="endDateD != null">
+            <![CDATA[AND t.writeDate<=#{endDateD}]]>
+        </if>
+        <if test="custid != null">
+            AND T.CUSTID=#{custid}
+        </if>
+        <if test="usergoodscode != null and usergoodscode != ''">
+            AND UCASE(ug.instkey) like #{usergoodscodeLike}
+        </if>
+    </select>
+    
+    <select id="sumCountStorage" parameterType="Report" resultType="int">
+        SELECT count(1) FROM (
+	        SELECT G.ID 
+	        FROM int_entrepot t 
+	        inner join int_entrepot_detail td on t.id = td.entrepotid
+	        inner join goods g on g.id = td.goodsid 
+	        inner join usergoods ug on ug.goodsid=td.goodsid and t.custid=ug.userkey
+	        inner join gmuser u on u.instkey=ug.userkey and u.instkey=t.custid 
+	        inner join unit_code uc on uc.unit_code=g.unit
+	        WHERE td.CurrentInventory>0
+	        <if test="startDateD != null">
+	            <![CDATA[AND t.writeDate>=#{startDateD}]]>
+	        </if>
+	        <if test="endDateD != null">
+	            <![CDATA[AND t.writeDate<=#{endDateD}]]>
+	        </if>
+	        <if test="custid != null">
+	            AND T.CUSTID=#{custid}
+	        </if>
+	        <if test="usergoodscode != null and usergoodscode != ''">
+	            AND UCASE(ug.instkey) like #{usergoodscodeLike}
+	        </if>
+	        GROUP BY G.ID
+        ) AS T
+    </select>
+    
+    <select id="transactionListByDate" resultType="Report" parameterType="Report">
+        SELECT T.*,U.loginName as username,G.GNAME AS goodDesc,ABS(g.GrossWt*t.gqty) as totalWT FROM (
+            select ug.instkey as usergoodscode,itd.GOODSID,u.gmusername as custname,itd.actNo as gqty,'入库' as actionType,i.no as orderno,DATE_FORMAT(itd.lastupdate,'%Y-%m-%d %T') AS dealtime,
+            itd.note,itd.createuserid,'' as recaddr
+            from int_entrepot i inner join int_entrepot_detail itd on i.id=itd.entrepotid and itd.actNo>0
+            inner join usergoods ug on ug.goodsid=itd.goodsid and i.custid=ug.userkey
+            inner join gmuser u on u.instkey=i.custid
+            where 1=1 
+            <if test="startDateD != null">
+                <![CDATA[AND itd.lastupdate>=#{startDateD}]]>
+            </if>
+            <if test="endDateD != null">
+                <![CDATA[AND itd.lastupdate<=#{endDateD}]]>
+            </if>
+            <if test="custid != null">
+                AND i.CUSTID=#{custid}
+            </if>
+            <if test="usergoodscode != null and usergoodscode != ''">
+                AND UCASE(ug.instkey) like #{usergoodscodeLike}
+            </if>
+            union all
+            select ug.instkey as usergoodscode,OG.GOODSID,u.gmusername as custname,0-og.gqty,'出库' as actionType,o.OrderId as orderno,DATE_FORMAT(o.releasedDate,'%Y-%m-%d %T') AS dealtime,
+            og.note,o.createruserid as createuserid,concat(p.name,(case when c.name=p.name then a.name else c.name end)) as recaddr
+            from order_info o inner join order_goods og on o.orderid=og.orderid
+            inner join usergoods ug on og.goodsid=ug.goodsid and ug.userkey=o.EntRecordName
+            inner join gmuser u on u.instkey=o.EntRecordName
+            inner join province p on p.id=o.province
+            inner join city c on c.id=o.city
+            inner join area a on a.id=o.area
+            where 1=1 
+            <if test="startDateD != null">
+                <![CDATA[AND o.releaseddate>=#{startDateD}]]>
+            </if>
+            <if test="endDateD != null">
+                <![CDATA[AND o.releaseddate<=#{endDateD}]]>
+            </if>
+            <if test="custid != null">
+                AND o.EntRecordName=#{custid}
+            </if>
+            <if test="usergoodscode != null and usergoodscode != ''">
+                AND UCASE(ug.instkey) like #{usergoodscodeLike}
+            </if>
+        ) AS T INNER JOIN GOODS G ON G.ID=T.GOODSID
+        LEFT JOIN account U ON U.id=T.createuserid
+        where 1=1
+        <if test="orderno != ''">
+            AND ucase(t.orderno) like #{ordernoLike}
+        </if>
+        ORDER BY T.dealTime DESC,t.usergoodscode
+        <if test="offset != null">
+                limit #{offset},#{rows}
+        </if>
+    </select>
+    
+    <select id="countTransactionListByDate" resultType="int" parameterType="Report">
+        SELECT count(1) FROM (
+            select ug.instkey as usergoodscode,u.gmusername as custname,itd.actNo as gqty,'入库' as actionType,i.no as orderno,DATE_FORMAT(itd.lastupdate,'%Y-%m-%d') AS dealtime,
+            itd.note,i.createuserid
+            from int_entrepot i inner join int_entrepot_detail itd on i.id=itd.entrepotid and itd.actNo>0
+            inner join usergoods ug on ug.goodsid=itd.goodsid and i.custid=ug.userkey
+            inner join gmuser u on u.instkey=i.custid
+            where 1=1 
+            <if test="startDateD != null">
+                <![CDATA[AND itd.lastupdate>=#{startDateD}]]>
+            </if>
+            <if test="endDateD != null">
+                <![CDATA[AND itd.lastupdate<=#{endDateD}]]>
+            </if>
+            <if test="custid != null">
+                AND i.CUSTID=#{custid}
+            </if>
+            <if test="usergoodscode != null and usergoodscode != ''">
+                AND UCASE(ug.instkey) like #{usergoodscodeLike}
+            </if>
+            union all
+            select ug.instkey as usergoodscode,u.gmusername as custname,0-og.gqty,'出库' as actionType,o.OrderId as orderno,DATE_FORMAT(o.releasedDate,'%Y-%m-%d %T') AS dealtime,
+            og.note,o.createruserid as createuserid
+            from order_info o inner join order_goods og on o.orderid=og.orderid
+            inner join usergoods ug on og.goodsid=ug.goodsid and ug.userkey=o.EntRecordName
+            inner join gmuser u on u.instkey=o.EntRecordName
+            where 1=1 
+            <if test="startDateD != null">
+                <![CDATA[AND o.releaseddate>=#{startDateD}]]>
+            </if>
+            <if test="endDateD != null">
+                <![CDATA[AND o.releaseddate<=#{endDateD}]]>
+            </if>
+            <if test="custid != null">
+                AND o.EntRecordName=#{custid}
+            </if>
+            <if test="usergoodscode != null and usergoodscode != ''">
+                AND UCASE(ug.instkey) like #{usergoodscodeLike}
+            </if>
+        ) AS T where 1=1
+        <if test="orderno != null and orderno != ''">
+            AND ucase(t.orderno) like #{ordernoLike}
+        </if>
+    </select>
+    
+    <select id="transactionListByDate4Report" resultType="Report" parameterType="Report">
+        SELECT T.*,U.loginName as username,G.GNAME AS goodDesc,ABS(g.GrossWt*t.gqty) as totalWT FROM (
+            select ug.instkey as usergoodscode,itd.GOODSID,u.gmusername as custname,itd.actNo as gqty,'入库' as actionType,i.no as orderno,DATE_FORMAT(itd.lastupdate,'%Y-%m-%d %T') AS dealtime,
+            itd.note,i.createuserid
+            from int_entrepot i inner join int_entrepot_detail itd on i.id=itd.entrepotid and itd.actNo>0
+            inner join usergoods ug on ug.goodsid=itd.goodsid and i.custid=ug.userkey
+            inner join gmuser u on u.instkey=i.custid
+            where 1=1 
+            <if test="startDateD != null">
+                <![CDATA[AND itd.lastupdate>=#{startDateD}]]>
+            </if>
+            <if test="endDateD != null">
+                <![CDATA[AND itd.lastupdate<=#{endDateD}]]>
+            </if>
+            <if test="custid != null">
+                AND i.CUSTID=#{custid}
+            </if>
+            <if test="usergoodscode != null and usergoodscode != ''">
+                AND UCASE(ug.instkey) like #{usergoodscodeLike}
+            </if>
+            union all
+            select ug.instkey as usergoodscode,OG.GOODSID,u.gmusername as custname,0-og.gqty,'出库' as actionType,o.OrderId as orderno,DATE_FORMAT(o.releasedDate,'%Y-%m-%d %T') AS dealtime,
+            og.note,o.createruserid as createuserid
+            from order_info o inner join order_goods og on o.orderid=og.orderid
+            inner join usergoods ug on og.goodsid=ug.goodsid and ug.userkey=o.EntRecordName
+            inner join gmuser u on u.instkey=o.EntRecordName
+            where 1=1 
+            <if test="startDateD != null">
+                <![CDATA[AND o.releaseddate>=#{startDateD}]]>
+            </if>
+            <if test="endDateD != null">
+                <![CDATA[AND o.releaseddate<=#{endDateD}]]>
+            </if>
+            <if test="custid != null">
+                AND o.EntRecordName=#{custid}
+            </if>
+            <if test="usergoodscode != null and usergoodscode != ''">
+                AND UCASE(ug.instkey) like #{usergoodscodeLike}
+            </if>
+        ) AS T INNER JOIN GOODS G ON G.ID=T.GOODSID
+        LEFT JOIN account U ON U.id=T.createuserid
+        where 1=1
+        <if test="orderno != null and orderno != ''">
+            AND ucase(t.orderno) like #{ordernoLike}
+        </if>
+        ORDER BY T.dealTime DESC,t.usergoodscode
+    </select>
+    
+    <select id="goodsListByDate" parameterType="Goods" resultType="Goods">
+        SELECT ug.instkey as usergoodscode, g.copgno,g.sellid,g.goodsenname,g.gname,c.COUN_C_NAME as country,
+            cr.curr_name as curr,g.decprice,unt.unit_name as unit,g.rmb,g.netwt,g.grosswt,g.pingming,g.yongtu,g.gmodel,g.brand,
+            g.chengfen,g.manufactory,g.networksellname,g.hyperlink,g.registno,g.ciqgoodsno
+        FROM GOODS G
+        INNER JOIN USERGOODS UG ON G.ID=UG.GOODSID AND UG.USERKEY=G.CREATEUSERID
+        inner join contry_code c on c.country_code=g.country
+        inner join unit_code unt on unt.unit_code=g.unit
+        inner join curr_code cr on cr.curr_code=g.curr
+        where 1=1
+        <if test="startDateD != null">
+            <![CDATA[AND g.appDate>=#{startDateD}]]>
+        </if>
+        <if test="endDateD != null">
+            <![CDATA[AND g.appDate<=#{endDateD}]]>
+        </if>
+        <if test="createuserid != null and createuserid !=''">
+            AND ug.userkey=#{createuserid}
+        </if>
+        <if test="usergoodscode != null and usergoodscode !=''">
+            AND ug.instkey like #{usergoodscodeLike}
+        </if>
+        <if test="copgno != null and copgno !=''">
+            AND g.copgno like #{copgnoLike}
+        </if>
+        <if test="registno != null and registno !=''">
+            AND g.registno like #{registnoLike}
+        </if>
+        <if test="ciqgoodsno != null and ciqgoodsno !=''">
+            AND g.ciqgoodsno like #{ciqgoodsnoLike}
+        </if>
+        ORDER BY UG.INSTKEY,g.appDate,ug.userkey
+        <if test="offset != null">
+            limit #{offset},#{rows}
+        </if>
+    </select>
+    
+    <select id="countGoodsListByDate" parameterType="Goods" resultType="int">
+        SELECT count(1) FROM GOODS G
+            INNER JOIN USERGOODS UG ON G.ID=UG.GOODSID AND UG.USERKEY=G.CREATEUSERID
+            inner join contry_code c on c.country_code=g.country
+	        inner join unit_code unt on unt.unit_code=g.unit
+	        inner join curr_code cr on cr.curr_code=g.curr
+	    WHERE 1=1
+        <if test="startDateD != null">
+            <![CDATA[AND g.appDate>=#{startDateD}]]>
+        </if>
+        <if test="endDateD != null">
+            <![CDATA[AND g.appDate<=#{endDateD}]]>
+        </if>
+        <if test="createuserid != null and createuserid !=''">
+            AND ug.userkey=#{createuserid}
+        </if>
+        <if test="usergoodscode != null and usergoodscode !=''">
+            AND ug.instkey like #{usergoodscodeLike}
+        </if>
+        <if test="copgno != null and copgno !=''">
+            AND g.copgno like #{copgnoLike}
+        </if>
+        <if test="registno != null and registno !=''">
+            AND g.registno like #{registnoLike}
+        </if>
+        <if test="ciqgoodsno != null and ciqgoodsno !=''">
+            AND g.ciqgoodsno like #{ciqgoodsnoLike}
+        </if>
+    </select>
+    
+    <select id="goodsListByDate4Report" resultType="Goods" parameterType="Goods">
+        SELECT ug.instkey as usergoodscode, g.copgno,g.sellid,g.goodsenname,g.gname,c.COUN_C_NAME as country,
+            cr.curr_name as curr,g.decprice,unt.unit_name as unit,g.rmb,g.netwt,g.grosswt,g.pingming,g.yongtu,g.gmodel,g.brand,
+            g.chengfen,g.manufactory,g.networksellname,g.hyperlink,g.registno,g.ciqgoodsno
+        FROM GOODS G
+        INNER JOIN USERGOODS UG ON G.ID=UG.GOODSID AND UG.USERKEY=G.CREATEUSERID
+        inner join contry_code c on c.country_code=g.country
+        inner join unit_code unt on unt.unit_code=g.unit
+        inner join curr_code cr on cr.curr_code=g.curr
+        WHERE 1=1
+        <if test="startDateD != null">
+            <![CDATA[AND g.appDate>=#{startDateD}]]>
+        </if>
+        <if test="endDateD != null">
+            <![CDATA[AND g.appDate<=#{endDateD}]]>
+        </if>
+        <if test="createuserid != null and createuserid !=''">
+            AND ug.userkey=#{createuserid}
+        </if>
+        <if test="usergoodscode != null and usergoodscode !=''">
+            AND ug.instkey like #{usergoodscodeLike}
+        </if>
+        <if test="copgno != null and copgno !=''">
+            AND g.copgno like #{copgnoLike}
+        </if>
+        <if test="registno != null and registno !=''">
+            AND g.registno like #{registnoLike}
+        </if>
+        <if test="ciqgoodsno != null and ciqgoodsno !=''">
+            AND g.ciqgoodsno like #{ciqgoodsnoLike}
+        </if>
+        ORDER BY UG.INSTKEY,g.appDate,ug.userkey
+        <if test="offset != null">
+            limit #{offset},#{rows}
+        </if>
+    </select>
+    
+    <select id="orderStatusListByDate" resultType="Report" parameterType="Report">
+        SELECT  o.orderid AS orderno,o.EntRecordNo, ug.instkey usergoodscode, u.gmusername as custname, g.CopGNo as entRecordNo,g.gname as goodDesc,
+            og.GQty,uit.unit_name as unit,og.DeclTotal,g.GrossWt*og.gqty as totalWT,o.Ewaysnum,o.OrderName as recname,o.orderDocId,g.copGNo,
+            o.OrderPhone as reccellno,o.OrderAddress as recaddr,(case when o.status+0=1 then '放行' when o.status+0=2 then '出库' when o.status+0=3 then '发货' else '清关中' end) as statusStr,DATE_FORMAT(o.releasedDate, '%Y-%m-%d %T') as dealtime,
+            og.Note as remark,u2.loginName as username, p.name as province, (case when length(c.name) = 3 then a.name else c.name end) as City,e.NoticeNo,
+            (case when o.orderDate is null then '' else DATE_FORMAT(o.orderDate, '%Y-%m-%d %T') end) as createdateStr
+        FROM order_info o
+        inner join order_goods og on o.orderid=og.orderid
+        inner join goods g on g.id=og.goodsid
+        inner join usergoods ug on ug.goodsid=g.id and ug.userkey=o.EntRecordName
+        inner join gmuser u on u.instkey=ug.userkey
+        inner join unit_code uit on uit.unit_code=g.unit
+        inner join province p on p.id=o.province
+        inner join city c on c.id=o.city
+        inner join area A on a.id=o.area
+        left join ewaybill e on e.orderid=o.orderid
+        LEFT join account u2 on u2.id=o.Createruserid
+        WHERE 1=1
+         <if test="startDateD != null">
+            <![CDATA[AND o.OrderDate>=#{startDateD}]]>
+        </if>
+        <if test="endDateD != null">
+            <![CDATA[AND o.OrderDate<=#{endDateD}]]>
+        </if>
+        <if test="custid != null">
+            AND o.EntRecordName=#{custid}
+        </if>
+        <if test="orderno != null and orderno !=''">
+            AND o.orderid like #{ordernoLike}
+        </if>
+        <if test="entRecordNo != null and entRecordNo !=''">
+            AND o.EntRecordNo like #{entRecordNoLike}
+        </if>
+        <if test="recname != null and recname !=''">
+            AND o.OrderName like #{recnameLike}
+        </if>
+        <if test="statusStr != null and statusStr !=''">
+            AND o.status=#{statusStr}
+        </if>
+        order by o.orderid desc,o.OrderDate desc,o.EntRecordName
+        <if test="offset != null">
+            limit #{offset},#{rows}
+        </if>
+    </select>
+    
+    <select id="countOrderStatusByDate" resultType="Int" parameterType="Report">
+        SELECT  count(1)
+        FROM order_info o
+        inner join order_goods og on o.orderid=og.orderid
+        inner join gmuser u on u.instkey=o.EntRecordName
+        WHERE 1=1
+         <if test="startDateD != null">
+            <![CDATA[AND o.OrderDate>=#{startDateD}]]>
+        </if>
+        <if test="endDateD != null">
+            <![CDATA[AND o.OrderDate<=#{endDateD}]]>
+        </if>
+        <if test="custid != null">
+            AND o.EntRecordName=#{custid}
+        </if>
+        <if test="orderno != null and orderno !=''">
+            AND o.orderid like #{ordernoLike}
+        </if>
+        <if test="entRecordNo != null and entRecordNo !=''">
+            AND o.EntRecordNo like #{entRecordNoLike}
+        </if>
+        <if test="recname != null and recname !=''">
+            AND o.OrderName like #{recnameLike}
+        </if>
+        <if test="statusStr != null and statusStr !=''">
+            AND o.status=#{statusStr}
+        </if>
+    </select>
+
+    <select id="orderStatusListByDate4Export" resultType="Report" parameterType="Report">
+       SELECT  o.orderid AS orderno,o.EntRecordNo, ug.instkey usergoodscode, u.gmusername as custname, g.CopGNo as entRecordNo,g.gname as goodDesc,
+            og.GQty,uit.unit_name as unit,og.DeclTotal,g.GrossWt*og.gqty as totalWT,o.Ewaysnum,o.OrderName as recname,o.orderDocId,g.copGNo,
+            o.OrderPhone as reccellno,o.OrderAddress as recaddr,(case when o.status+0=1 then '放行' when o.status+0=2 then '出库' when o.status+0=3 then '发货' else '清关中' end) as statusStr,DATE_FORMAT(o.releasedDate, '%Y-%m-%d %T') as dealtime,
+            og.Note as remark,u2.loginName as username, p.name as province, (case when length(c.name) = 3 then a.name else c.name end) as City,e.NoticeNo,
+            (case when o.orderDate is null then '' else DATE_FORMAT(o.orderDate, '%Y-%m-%d %T') end) as createdateStr
+        FROM order_info o
+        inner join order_goods og on o.orderid=og.orderid
+        inner join goods g on g.id=og.goodsid
+        inner join usergoods ug on ug.goodsid=g.id and ug.userkey=o.EntRecordName
+        inner join gmuser u on u.instkey=ug.userkey
+        inner join unit_code uit on uit.unit_code=g.unit
+        inner join province p on p.id=o.province
+        inner join city c on c.id=o.city
+        inner join area A on a.id=o.area
+        left join ewaybill e on e.orderid=o.orderid
+        LEFT join account u2 on u2.instkey=o.Createruserid
+        WHERE 1=1
+         <if test="startDateD != null">
+            <![CDATA[AND o.OrderDate>=#{startDateD}]]>
+        </if>
+        <if test="endDateD != null">
+            <![CDATA[AND o.OrderDate<=#{endDateD}]]>
+        </if>
+        <if test="custid != null">
+            AND o.EntRecordName=#{custid}
+        </if>
+        <if test="orderno != null and orderno !=''">
+            AND o.orderid like #{ordernoLike}
+        </if>
+        <if test="entRecordNo != null and entRecordNo !=''">
+            AND o.EntRecordNo like #{entRecordNoLike}
+        </if>
+        <if test="recname != null and recname !=''">
+            AND o.OrderName like #{recnameLike}
+        </if>
+        <if test="statusStr != null and statusStr !=''">
+            AND o.status=#{statusStr}
+        </if>
+        order by o.orderid desc,o.OrderDate desc,o.EntRecordName
+    </select>
+</mapper>

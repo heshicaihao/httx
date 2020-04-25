@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ht.mapper.AccountMapper" >
+    <insert id="add" parameterType="Account">
+        INSERT INTO ACCOUNT(LOGINNAME,LOGINPWD,CREATEDATE,STATUS,ACCOUNTTYPE,CUSTID,ACCOUNTDESC)
+        VALUES(#{loginName,jdbcType=VARCHAR},#{loginPWD,jdbcType=VARCHAR},now(),1,#{accountType,jdbcType=INTEGER},
+        #{custId,jdbcType=INTEGER},#{accountDesc,jdbcType=VARCHAR})
+    </insert>
+	<select id="listPage" resultType="Account" parameterType="Account">
+		SELECT l.id,l.loginName,l.loginPWD,l.lastLoginDate,l.status,L.accountType,l.accountDesc,u.gmusername as custName,u.instkey as custid
+		from account l left join gmuser u on l.custid=u.instkey
+		where 1=1
+		<if test="null != loginName and loginName != ''">
+		  and l.loginName like #{loginNameLike}
+		</if>
+		<if test="null != custName and custName != ''">
+          and u.gmusername like #{custNameLike}
+        </if>
+        <if test="null != status">
+          and l.status=#{status}
+        </if>
+        <if test="null != accountType">
+          and l.accountType=#{accountType}
+        </if>
+        ORDER BY L.loginName,u.gmusername
+        <if test="null != offset">
+        limit #{offset},#{rows}
+        </if>
+	</select>
+	
+	<select id="countPage" resultType="Integer" parameterType="Account">
+        SELECT count(1)
+        from account l left join gmuser u on l.custid=u.instkey
+        where 1=1
+        <if test="null != loginName and loginName != ''">
+          and l.loginName like #{loginNameLike}
+        </if>
+        <if test="null != custName and custName != ''">
+          and u.gmusername like #{custNameLike}
+        </if>
+        <if test="null != status">
+          and l.status=#{status}
+        </if>
+        <if test="null != accountType">
+          and l.accountType=#{accountType}
+        </if>
+    </select>
+	
+	<update id="update">
+	   update account
+	    <set >
+	      <if test="loginPWD != null" >
+	        loginPWD = #{loginPWD,jdbcType=VARCHAR},
+	      </if>
+	      <if test="status != null" >
+	        status = #{status,jdbcType=INTEGER},
+	      </if>
+	      <if test="lastLoginDate != null" >
+            lastLoginDate = now(),
+          </if>
+          <if test="accountDesc != null and accountDesc!=''" >
+            accountDesc = #{accountDesc,jdbcType=VARCHAR}
+          </if>
+	    </set>
+	    where id = #{id,jdbcType=INTEGER}
+	  </update>
+	
+	<select id="getById" resultType="Account">
+		SELECT * fROM ACCOUNT WHERE ID=#{id}
+	</select>
+	
+	<select id="getByLoginName" resultType="Account">
+		SELECT id,loginName FROM Account where ucase(loginName)=#{loginName} 
+	</select>
+	
+	<select id="checkPass" resultType="Account" parameterType="Account" >
+    select * from Account
+    where ucase(loginName) = #{loginName,jdbcType=VARCHAR} and loginPWD=#{loginPWD} and STATUS=1
+  </select>
+</mapper>

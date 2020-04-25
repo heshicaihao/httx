@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ht.mapper.GoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.ht.model.Goods" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="CopGNo" property="copgno" jdbcType="VARCHAR" />
+    <result column="SellID" property="sellid" jdbcType="VARCHAR" />
+    <result column="goodsENName" property="goodsenname" jdbcType="VARCHAR" />
+    <result column="GName" property="gname" jdbcType="VARCHAR" />
+    <result column="Manufactory" property="manufactory" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="HSCode" property="hscode" jdbcType="VARCHAR" />
+    <result column="curr" property="curr" jdbcType="VARCHAR" />
+    <result column="RMB" property="rmb" jdbcType="VARCHAR" />
+    <result column="DecPrice" property="decprice" jdbcType="DECIMAL" />
+    <result column="NetWt" property="netwt" jdbcType="DECIMAL" />
+    <result column="GrossWt" property="grosswt" jdbcType="DECIMAL" />
+    <result column="pingming" property="pingming" jdbcType="VARCHAR" />
+    <result column="Brand" property="brand" jdbcType="VARCHAR" />
+    <result column="yongtu" property="yongtu" jdbcType="VARCHAR" />
+    <result column="GModel" property="gmodel" jdbcType="VARCHAR" />
+    <result column="chengfen" property="chengfen" jdbcType="VARCHAR" />
+    <result column="NetworkSellName" property="networksellname" jdbcType="VARCHAR" />
+    <result column="HyperLink" property="hyperlink" jdbcType="VARCHAR" />
+    <result column="batchId" property="batchid" jdbcType="VARCHAR" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="PostTariffCode" property="posttariffcode" jdbcType="VARCHAR" />
+    <result column="PostTariffName" property="posttariffname" jdbcType="VARCHAR" />
+    <result column="EportGoodsNo" property="eportgoodsno" jdbcType="VARCHAR" />
+    <result column="registNo" property="registno" jdbcType="VARCHAR" />
+    <result column="appDate" property="appdate" jdbcType="TIMESTAMP" />
+    <result column="appEndDate" property="appenddate" jdbcType="TIMESTAMP" />
+    <result column="createUserId" property="createuserid" jdbcType="VARCHAR" />
+    <result column="lastUpdateUserId" property="lastupdateuserid" jdbcType="VARCHAR" />
+    <result column="lastUpdateTime" property="lastupdatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, CopGNo, SellID, goodsENName, GName, Manufactory, country, HSCode, curr, RMB, 
+    DecPrice, NetWt, GrossWt, pingming, Brand, yongtu, GModel, chengfen, NetworkSellName, 
+    HyperLink, batchId, unit, PostTariffCode, PostTariffName, EportGoodsNo, registNo, 
+    appDate, appEndDate, createUserId, lastUpdateUserId, lastUpdateTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ht.model.GoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ht.model.GoodsExample" >
+    delete from goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ht.model.Goods" >
+    insert into goods ( CopGNo, SellID, 
+      goodsENName, GName, Manufactory, 
+      country, HSCode, curr, 
+      RMB, DecPrice, NetWt, 
+      GrossWt, pingming, Brand, 
+      yongtu, GModel, chengfen, 
+      NetworkSellName, HyperLink, batchId, 
+      unit, PostTariffCode, PostTariffName, 
+      EportGoodsNo, registNo, appDate, 
+      appEndDate, createUserId, lastUpdateUserId, 
+      lastUpdateTime)
+    values ( #{copgno,jdbcType=VARCHAR}, #{sellid,jdbcType=VARCHAR}, 
+      #{goodsenname,jdbcType=VARCHAR}, #{gname,jdbcType=VARCHAR}, #{manufactory,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{hscode,jdbcType=VARCHAR}, #{curr,jdbcType=VARCHAR}, 
+      #{rmb,jdbcType=VARCHAR}, #{decprice,jdbcType=DECIMAL}, #{netwt,jdbcType=DECIMAL}, 
+      #{grosswt,jdbcType=DECIMAL}, #{pingming,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, 
+      #{yongtu,jdbcType=VARCHAR}, #{gmodel,jdbcType=VARCHAR}, #{chengfen,jdbcType=VARCHAR}, 
+      #{networksellname,jdbcType=VARCHAR}, #{hyperlink,jdbcType=VARCHAR}, #{batchid,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{posttariffcode,jdbcType=VARCHAR}, #{posttariffname,jdbcType=VARCHAR}, 
+      #{eportgoodsno,jdbcType=VARCHAR}, #{registno,jdbcType=VARCHAR}, #{appdate,jdbcType=TIMESTAMP}, 
+      #{appenddate,jdbcType=TIMESTAMP}, #{createuserid,jdbcType=VARCHAR}, #{lastupdateuserid,jdbcType=VARCHAR}, 
+      #{lastupdatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ht.model.Goods" >
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="copgno != null" >
+        CopGNo,
+      </if>
+      <if test="sellid != null" >
+        SellID,
+      </if>
+      <if test="goodsenname != null" >
+        goodsENName,
+      </if>
+      <if test="gname != null" >
+        GName,
+      </if>
+      <if test="manufactory != null" >
+        Manufactory,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="hscode != null" >
+        HSCode,
+      </if>
+      <if test="curr != null" >
+        curr,
+      </if>
+      <if test="rmb != null" >
+        RMB,
+      </if>
+      <if test="decprice != null" >
+        DecPrice,
+      </if>
+      <if test="netwt != null" >
+        NetWt,
+      </if>
+      <if test="grosswt != null" >
+        GrossWt,
+      </if>
+      <if test="pingming != null" >
+        pingming,
+      </if>
+      <if test="brand != null" >
+        Brand,
+      </if>
+      <if test="yongtu != null" >
+        yongtu,
+      </if>
+      <if test="gmodel != null" >
+        GModel,
+      </if>
+      <if test="chengfen != null" >
+        chengfen,
+      </if>
+      <if test="networksellname != null" >
+        NetworkSellName,
+      </if>
+      <if test="hyperlink != null" >
+        HyperLink,
+      </if>
+      <if test="batchid != null" >
+        batchId,
+      </if>
+      <if test="unit != null" >
+        unit,
+      </if>
+      <if test="posttariffcode != null" >
+        PostTariffCode,
+      </if>
+      <if test="posttariffname != null" >
+        PostTariffName,
+      </if>
+      <if test="eportgoodsno != null" >
+        EportGoodsNo,
+      </if>
+      <if test="registno != null" >
+        registNo,
+      </if>
+      <if test="appdate != null" >
+        appDate,
+      </if>
+      <if test="appenddate != null" >
+        appEndDate,
+      </if>
+      <if test="createuserid != null" >
+        createUserId,
+      </if>
+      <if test="lastupdateuserid != null" >
+        lastUpdateUserId,
+      </if>
+      <if test="lastupdatetime != null" >
+        lastUpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="copgno != null" >
+        #{copgno,jdbcType=VARCHAR},
+      </if>
+      <if test="sellid != null" >
+        #{sellid,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsenname != null" >
+        #{goodsenname,jdbcType=VARCHAR},
+      </if>
+      <if test="gname != null" >
+        #{gname,jdbcType=VARCHAR},
+      </if>
+      <if test="manufactory != null" >
+        #{manufactory,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="hscode != null" >
+        #{hscode,jdbcType=VARCHAR},
+      </if>
+      <if test="curr != null" >
+        #{curr,jdbcType=VARCHAR},
+      </if>
+      <if test="rmb != null" >
+        #{rmb,jdbcType=VARCHAR},
+      </if>
+      <if test="decprice != null" >
+        #{decprice,jdbcType=DECIMAL},
+      </if>
+      <if test="netwt != null" >
+        #{netwt,jdbcType=DECIMAL},
+      </if>
+      <if test="grosswt != null" >
+        #{grosswt,jdbcType=DECIMAL},
+      </if>
+      <if test="pingming != null" >
+        #{pingming,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="yongtu != null" >
+        #{yongtu,jdbcType=VARCHAR},
+      </if>
+      <if test="gmodel != null" >
+        #{gmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="chengfen != null" >
+        #{chengfen,jdbcType=VARCHAR},
+      </if>
+      <if test="networksellname != null" >
+        #{networksellname,jdbcType=VARCHAR},
+      </if>
+      <if test="hyperlink != null" >
+        #{hyperlink,jdbcType=VARCHAR},
+      </if>
+      <if test="batchid != null" >
+        #{batchid,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="posttariffcode != null" >
+        #{posttariffcode,jdbcType=VARCHAR},
+      </if>
+      <if test="posttariffname != null" >
+        #{posttariffname,jdbcType=VARCHAR},
+      </if>
+      <if test="eportgoodsno != null" >
+        #{eportgoodsno,jdbcType=VARCHAR},
+      </if>
+      <if test="registno != null" >
+        #{registno,jdbcType=VARCHAR},
+      </if>
+      <if test="appdate != null" >
+        #{appdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appenddate != null" >
+        #{appenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuserid != null" >
+        #{createuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="lastupdateuserid != null" >
+        #{lastupdateuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="lastupdatetime != null" >
+        #{lastupdatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ht.model.GoodsExample" resultType="java.lang.Integer" >
+    select count(*) from goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update goods
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.copgno != null" >
+        CopGNo = #{record.copgno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sellid != null" >
+        SellID = #{record.sellid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsenname != null" >
+        goodsENName = #{record.goodsenname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gname != null" >
+        GName = #{record.gname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manufactory != null" >
+        Manufactory = #{record.manufactory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.country != null" >
+        country = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hscode != null" >
+        HSCode = #{record.hscode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.curr != null" >
+        curr = #{record.curr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rmb != null" >
+        RMB = #{record.rmb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.decprice != null" >
+        DecPrice = #{record.decprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.netwt != null" >
+        NetWt = #{record.netwt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.grosswt != null" >
+        GrossWt = #{record.grosswt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.pingming != null" >
+        pingming = #{record.pingming,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brand != null" >
+        Brand = #{record.brand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yongtu != null" >
+        yongtu = #{record.yongtu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gmodel != null" >
+        GModel = #{record.gmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chengfen != null" >
+        chengfen = #{record.chengfen,jdbcType=VARCHAR},
+      </if>
+      <if test="record.networksellname != null" >
+        NetworkSellName = #{record.networksellname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hyperlink != null" >
+        HyperLink = #{record.hyperlink,jdbcType=VARCHAR},
+      </if>
+      <if test="record.batchid != null" >
+        batchId = #{record.batchid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null" >
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.posttariffcode != null" >
+        PostTariffCode = #{record.posttariffcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.posttariffname != null" >
+        PostTariffName = #{record.posttariffname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eportgoodsno != null" >
+        EportGoodsNo = #{record.eportgoodsno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registno != null" >
+        registNo = #{record.registno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appdate != null" >
+        appDate = #{record.appdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.appenddate != null" >
+        appEndDate = #{record.appenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createuserid != null" >
+        createUserId = #{record.createuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastupdateuserid != null" >
+        lastUpdateUserId = #{record.lastupdateuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastupdatetime != null" >
+        lastUpdateTime = #{record.lastupdatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update goods
+    set id = #{record.id,jdbcType=INTEGER},
+      CopGNo = #{record.copgno,jdbcType=VARCHAR},
+      SellID = #{record.sellid,jdbcType=VARCHAR},
+      goodsENName = #{record.goodsenname,jdbcType=VARCHAR},
+      GName = #{record.gname,jdbcType=VARCHAR},
+      Manufactory = #{record.manufactory,jdbcType=VARCHAR},
+      country = #{record.country,jdbcType=VARCHAR},
+      HSCode = #{record.hscode,jdbcType=VARCHAR},
+      curr = #{record.curr,jdbcType=VARCHAR},
+      RMB = #{record.rmb,jdbcType=VARCHAR},
+      DecPrice = #{record.decprice,jdbcType=DECIMAL},
+      NetWt = #{record.netwt,jdbcType=DECIMAL},
+      GrossWt = #{record.grosswt,jdbcType=DECIMAL},
+      pingming = #{record.pingming,jdbcType=VARCHAR},
+      Brand = #{record.brand,jdbcType=VARCHAR},
+      yongtu = #{record.yongtu,jdbcType=VARCHAR},
+      GModel = #{record.gmodel,jdbcType=VARCHAR},
+      chengfen = #{record.chengfen,jdbcType=VARCHAR},
+      NetworkSellName = #{record.networksellname,jdbcType=VARCHAR},
+      HyperLink = #{record.hyperlink,jdbcType=VARCHAR},
+      batchId = #{record.batchid,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      PostTariffCode = #{record.posttariffcode,jdbcType=VARCHAR},
+      PostTariffName = #{record.posttariffname,jdbcType=VARCHAR},
+      EportGoodsNo = #{record.eportgoodsno,jdbcType=VARCHAR},
+      registNo = #{record.registno,jdbcType=VARCHAR},
+      appDate = #{record.appdate,jdbcType=TIMESTAMP},
+      appEndDate = #{record.appenddate,jdbcType=TIMESTAMP},
+      createUserId = #{record.createuserid,jdbcType=VARCHAR},
+      lastUpdateUserId = #{record.lastupdateuserid,jdbcType=VARCHAR},
+      lastUpdateTime = #{record.lastupdatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ht.model.Goods" >
+    update goods
+    <set >
+      <if test="copgno != null" >
+        CopGNo = #{copgno,jdbcType=VARCHAR},
+      </if>
+      <if test="sellid != null" >
+        SellID = #{sellid,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsenname != null" >
+        goodsENName = #{goodsenname,jdbcType=VARCHAR},
+      </if>
+      <if test="gname != null" >
+        GName = #{gname,jdbcType=VARCHAR},
+      </if>
+      <if test="manufactory != null" >
+        Manufactory = #{manufactory,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="hscode != null" >
+        HSCode = #{hscode,jdbcType=VARCHAR},
+      </if>
+      <if test="curr != null" >
+        curr = #{curr,jdbcType=VARCHAR},
+      </if>
+      <if test="rmb != null" >
+        RMB = #{rmb,jdbcType=VARCHAR},
+      </if>
+      <if test="decprice != null" >
+        DecPrice = #{decprice,jdbcType=DECIMAL},
+      </if>
+      <if test="netwt != null" >
+        NetWt = #{netwt,jdbcType=DECIMAL},
+      </if>
+      <if test="grosswt != null" >
+        GrossWt = #{grosswt,jdbcType=DECIMAL},
+      </if>
+      <if test="pingming != null" >
+        pingming = #{pingming,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        Brand = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="yongtu != null" >
+        yongtu = #{yongtu,jdbcType=VARCHAR},
+      </if>
+      <if test="gmodel != null" >
+        GModel = #{gmodel,jdbcType=VARCHAR},
+      </if>
+      <if test="chengfen != null" >
+        chengfen = #{chengfen,jdbcType=VARCHAR},
+      </if>
+      <if test="networksellname != null" >
+        NetworkSellName = #{networksellname,jdbcType=VARCHAR},
+      </if>
+      <if test="hyperlink != null" >
+        HyperLink = #{hyperlink,jdbcType=VARCHAR},
+      </if>
+      <if test="batchid != null" >
+        batchId = #{batchid,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="posttariffcode != null" >
+        PostTariffCode = #{posttariffcode,jdbcType=VARCHAR},
+      </if>
+      <if test="posttariffname != null" >
+        PostTariffName = #{posttariffname,jdbcType=VARCHAR},
+      </if>
+      <if test="eportgoodsno != null" >
+        EportGoodsNo = #{eportgoodsno,jdbcType=VARCHAR},
+      </if>
+      <if test="registno != null" >
+        registNo = #{registno,jdbcType=VARCHAR},
+      </if>
+      <if test="appdate != null" >
+        appDate = #{appdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appenddate != null" >
+        appEndDate = #{appenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuserid != null" >
+        createUserId = #{createuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="lastupdateuserid != null" >
+        lastUpdateUserId = #{lastupdateuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="lastupdatetime != null" >
+        lastUpdateTime = #{lastupdatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ht.model.Goods" >
+    update goods
+    set CopGNo = #{copgno,jdbcType=VARCHAR},
+      SellID = #{sellid,jdbcType=VARCHAR},
+      goodsENName = #{goodsenname,jdbcType=VARCHAR},
+      GName = #{gname,jdbcType=VARCHAR},
+      Manufactory = #{manufactory,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      HSCode = #{hscode,jdbcType=VARCHAR},
+      curr = #{curr,jdbcType=VARCHAR},
+      RMB = #{rmb,jdbcType=VARCHAR},
+      DecPrice = #{decprice,jdbcType=DECIMAL},
+      NetWt = #{netwt,jdbcType=DECIMAL},
+      GrossWt = #{grosswt,jdbcType=DECIMAL},
+      pingming = #{pingming,jdbcType=VARCHAR},
+      Brand = #{brand,jdbcType=VARCHAR},
+      yongtu = #{yongtu,jdbcType=VARCHAR},
+      GModel = #{gmodel,jdbcType=VARCHAR},
+      chengfen = #{chengfen,jdbcType=VARCHAR},
+      NetworkSellName = #{networksellname,jdbcType=VARCHAR},
+      HyperLink = #{hyperlink,jdbcType=VARCHAR},
+      batchId = #{batchid,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      PostTariffCode = #{posttariffcode,jdbcType=VARCHAR},
+      PostTariffName = #{posttariffname,jdbcType=VARCHAR},
+      EportGoodsNo = #{eportgoodsno,jdbcType=VARCHAR},
+      registNo = #{registno,jdbcType=VARCHAR},
+      appDate = #{appdate,jdbcType=TIMESTAMP},
+      appEndDate = #{appenddate,jdbcType=TIMESTAMP},
+      createUserId = #{createuserid,jdbcType=VARCHAR},
+      lastUpdateUserId = #{lastupdateuserid,jdbcType=VARCHAR},
+      lastUpdateTime = #{lastupdatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

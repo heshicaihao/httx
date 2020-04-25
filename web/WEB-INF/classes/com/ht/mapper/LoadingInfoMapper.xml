@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ht.mapper.LoadingInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.ht.model.LoadingInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="EntInsideNo" property="entinsideno" jdbcType="VARCHAR" />
+    <result column="MasterCustoms" property="mastercustoms" jdbcType="VARCHAR" />
+    <result column="VeName" property="vename" jdbcType="VARCHAR" />
+    <result column="LoadingDate" property="loadingdate" jdbcType="DATE" />
+    <result column="Note" property="note" jdbcType="VARCHAR" />
+    <result column="InputDate" property="inputdate" jdbcType="DATE" />
+    <result column="GrossWt" property="grosswt" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, EntInsideNo, MasterCustoms, VeName, LoadingDate, Note, InputDate, GrossWt
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ht.model.LoadingInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from loading_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from loading_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from loading_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ht.model.LoadingInfoExample" >
+    delete from loading_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ht.model.LoadingInfo"  useGeneratedKeys="true" keyProperty="id">
+    insert into loading_info (id, EntInsideNo, MasterCustoms, 
+      VeName, LoadingDate, Note,
+      InputDate, GrossWt, loading_no)
+    values (#{id,jdbcType=INTEGER}, #{entinsideno,jdbcType=VARCHAR}, #{mastercustoms,jdbcType=VARCHAR}, 
+      #{vename,jdbcType=VARCHAR}, #{loadingdate,jdbcType=DATE}, #{note,jdbcType=VARCHAR}, 
+      #{inputdate,jdbcType=DATE}, #{grosswt,jdbcType=DECIMAL},#{loading_no,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ht.model.LoadingInfo" >
+    insert into loading_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="entinsideno != null" >
+        EntInsideNo,
+      </if>
+      <if test="mastercustoms != null" >
+        MasterCustoms,
+      </if>
+      <if test="vename != null" >
+        VeName,
+      </if>
+      <if test="loadingdate != null" >
+        LoadingDate,
+      </if>
+      <if test="note != null" >
+        Note,
+      </if>
+      <if test="inputdate != null" >
+        InputDate,
+      </if>
+      <if test="grosswt != null" >
+        GrossWt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="entinsideno != null" >
+        #{entinsideno,jdbcType=VARCHAR},
+      </if>
+      <if test="mastercustoms != null" >
+        #{mastercustoms,jdbcType=VARCHAR},
+      </if>
+      <if test="vename != null" >
+        #{vename,jdbcType=VARCHAR},
+      </if>
+      <if test="loadingdate != null" >
+        #{loadingdate,jdbcType=DATE},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="inputdate != null" >
+        #{inputdate,jdbcType=DATE},
+      </if>
+      <if test="grosswt != null" >
+        #{grosswt,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ht.model.LoadingInfoExample" resultType="java.lang.Integer" >
+    select count(*) from loading_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update loading_info
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.entinsideno != null" >
+        EntInsideNo = #{record.entinsideno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mastercustoms != null" >
+        MasterCustoms = #{record.mastercustoms,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vename != null" >
+        VeName = #{record.vename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loadingdate != null" >
+        LoadingDate = #{record.loadingdate,jdbcType=DATE},
+      </if>
+      <if test="record.note != null" >
+        Note = #{record.note,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inputdate != null" >
+        InputDate = #{record.inputdate,jdbcType=DATE},
+      </if>
+      <if test="record.grosswt != null" >
+        GrossWt = #{record.grosswt,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update loading_info
+    set id = #{record.id,jdbcType=INTEGER},
+      EntInsideNo = #{record.entinsideno,jdbcType=VARCHAR},
+      MasterCustoms = #{record.mastercustoms,jdbcType=VARCHAR},
+      VeName = #{record.vename,jdbcType=VARCHAR},
+      LoadingDate = #{record.loadingdate,jdbcType=DATE},
+      Note = #{record.note,jdbcType=VARCHAR},
+      InputDate = #{record.inputdate,jdbcType=DATE},
+      GrossWt = #{record.grosswt,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ht.model.LoadingInfo" >
+    update loading_info
+    <set >
+      <if test="entinsideno != null" >
+        EntInsideNo = #{entinsideno,jdbcType=VARCHAR},
+      </if>
+      <if test="mastercustoms != null" >
+        MasterCustoms = #{mastercustoms,jdbcType=VARCHAR},
+      </if>
+      <if test="vename != null" >
+        VeName = #{vename,jdbcType=VARCHAR},
+      </if>
+      <if test="loadingdate != null" >
+        LoadingDate = #{loadingdate,jdbcType=DATE},
+      </if>
+      <if test="note != null" >
+        Note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="inputdate != null" >
+        InputDate = #{inputdate,jdbcType=DATE},
+      </if>
+      <if test="grosswt != null" >
+        GrossWt = #{grosswt,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ht.model.LoadingInfo" >
+    update loading_info
+    set EntInsideNo = #{entinsideno,jdbcType=VARCHAR},
+      MasterCustoms = #{mastercustoms,jdbcType=VARCHAR},
+      VeName = #{vename,jdbcType=VARCHAR},
+      LoadingDate = #{loadingdate,jdbcType=DATE},
+      Note = #{note,jdbcType=VARCHAR},
+      InputDate = #{inputdate,jdbcType=DATE},
+      GrossWt = #{grosswt,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <insert id="addUIOrderId">
+    INSERT INTO UI_ORDER(ORDERID,TRANSINSTKEY) VALUES(#{orderId},#{transInstKey})
+  </insert>
+  
+  <delete id="cleanUI" parameterType="String">
+    DELETE FROM UI_ORDER WHERE TRANSINSTKEY=#{transInstKey}
+  </delete>
+  
+  <select id="checkUnloading" resultType="String">
+    SELECT UI.ORDERID FROM UI_ORDER UI LEFT JOIN ORDER_INFO O ON UI.ORDERID=O.ORDERID
+    WHERE UI.TRANSINSTKEY=#{transInstKey} AND (O.LOADING_NO IS NULL OR TRIM(O.LOADING_NO)='')
+  </select>
+  
+  <update id="closeOrderBatch">
+    UPDATE ORDER_INFO O SET O.STATUS='3' WHERE EXISTS (SELECT 1 FROM UI_ORDER UI WHERE UI.ORDERID=O.ORDERID AND UI.TRANSINSTKEY=#{transInstKey})
+  </update>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InternationalTrade>
+	<!--报文头-->
+	<Head>
+		<!-- 报文编号 -->
+		<MessageID>DS${tr.yyyyMMddHHmmSSS}</MessageID>
+		<!-- 报文类型 -->
+		<MessageType>881105</MessageType>
+		<!-- 报文发送者标识 -->
+		<Sender>GZEPORT001</Sender>
+		<!-- 报文接收人标识 -->
+		<Receiver>ICQ100100</Receiver>
+		<!-- 发送时间 -->
+		<SendTime>${tr.currentTime}</SendTime>
+		<!-- 业务类型 -->
+		<FunctionCode>100100</FunctionCode>
+		<!--版本 默认为1.0-->
+		<Version>1.0</Version>
+	</Head>
+	<!--报文体-->
+	<Declaration>
+		<!-- 装载清单业务头信息    -->
+		<LoadHead>
+			<!--  申报企业备案编号-->
+			<CIQEntRegNo>DSCIQ001</CIQEntRegNo>
+			<!--  代理企业备案编号-->
+			<AgentEntNo>DAILI001</AgentEntNo>
+			<!-- 检验检疫机构 -->
+			<OrgCode>440070</OrgCode>
+			<!-- 运输工具，车牌号 -->
+			<CarNo>${tr.veName}</CarNo>
+			<!--总重量  -->
+			<TotalWeight>${tr.grossWt}</TotalWeight>
+			<!-- 装载日期 -->
+			<LoadDate>${tr.inputDate}</LoadDate>
+			<!-- 企业装载货物自编号 -->
+			<EntLoadingNo>ZUZAI001</EntLoadingNo>
+			<!-- 公共平台装载清单受理号 -->
+			<EPortLoadingNo>LD2013031501234</EPortLoadingNo>
+			<!-- 检验检疫装载清单受理号 -->
+			<CIQLoadingNo>CIQLD001</CIQLoadingNo>
+			<!-- 录入日期-->
+			<InputDate>${tr.inputDate}</InputDate>
+			<!-- 操作方式：A-新增；M-修改；D-取消备案；（默认为新增） -->
+			<OpType>A</OpType>
+			<!--备注  -->
+			<Notes>无</Notes>
+		</LoadHead>
+		<!--装载清单业务明细信息-->
+			
+		<LoadList>
+		<#list tr.detailsList as good>
+			<!--装载清单货物信息-->
+			<LoadContent>
+				<!--序号-->
+				<Seq>${good_index+1}</Seq>
+				<!-- 检验检疫进境清单编号,必填 -->
+				<CIQImportNo>不知填什么</CIQImportNo>
+				<!-- 备注 -->
+				<Notes>无</Notes>
+			</LoadContent>
+			</#list>
+		</LoadList>
+		
+	</Declaration>
+</InternationalTrade>
+

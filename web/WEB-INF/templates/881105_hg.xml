@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Manifest>
+  <Head>
+	<!-- 报文编号  -->
+    <MessageID>881105${tr.yyyyMMddHHmmSSS}</MessageID>
+    <!-- 业务类型（默认为0） -->
+	<FunctionCode>0</FunctionCode>
+	<!-- 报文类型 （默认为881105） -->
+    <MessageType>881105</MessageType>
+	<!-- 平台企业备案号 -->
+    <SenderID>PTE51411404010000001</SenderID>
+	<!-- 平台企业备案号 -->
+    <ReceiverID>PTE51411404010000001</ReceiverID>
+	<!-- 发送时间  -->
+    <SendTime>${tr.currentTime}</SendTime>
+	<!-- 版本 默认为1.0 -->
+    <Version>1.0</Version>
+  </Head>
+  <Declaration>
+	<EBill>
+		<!-- 企业内部编号 -->
+		<EntInsideNo>${tr.yyyyMMddHHmmSSS}</EntInsideNo>
+		<!-- 申报地海关 -->
+		<MasterCustoms>5141</MasterCustoms>
+		<!-- 车牌号 -->
+		<VeName>${tr.veName}</VeName>
+		<!-- 装载日期 -->
+		<LoadingDate>${tr.inputDate}</LoadingDate>
+		<!-- 备注  -->
+		<Note>${tr.note}</Note>
+		<!-- 录入日期 -->
+		<InputDate>${tr.inputDate}</InputDate>
+		<!-- 总毛重  -->
+		<GrossWt>${tr.grossWt}</GrossWt>
+	</EBill>
+	<EBillLists>
+	<#list tr.detailsList as goods>
+		<EBillList>
+			<!-- 序号 -->
+			<ListGNo>${goods_index+1}</ListGNo>
+			<!-- 清单企业内部编号  -->
+			<ListEntNo>${goods.entRecordNo}</ListEntNo>
+			<!-- 收件人姓名 -->
+			<ReceiveName>${goods.receiveName}</ReceiveName>
+			<!-- 清单商品序号 -->
+			<GNo>${goods.sortNum}</GNo>
+			<!-- 商品海关备案号 -->
+			<CustomsListNO >${goods.customsListNO}</CustomsListNO>
+			<!-- 商品名称 -->
+			<GName>${goods.GName}</GName>
+			<!-- 申报数量  -->
+			<Qty>${goods.qty}</Qty>
+		</EBillList>
+	</#list>
+	</EBillLists>
+  </Declaration>
+</Manifest>

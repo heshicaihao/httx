@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ht.mapper.LoadingGoodsMapper">
+	<resultMap id="BaseResultMap" type="com.ht.model.LoadingGoods">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="orderId" property="orderid" jdbcType="VARCHAR" />
+		<result column="loadingId" property="loadingid" jdbcType="INTEGER" />
+		<result column="ListEntNo" property="listentno" jdbcType="VARCHAR" />
+		<result column="sortNum" property="sortNum" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition}
+									#{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition}
+									#{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition}
+									#{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition}
+									#{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">id, orderId, loadingId, ListEntNo</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.ht.model.LoadingGoodsExample">
+		select
+		<if test="distinct">distinct</if>
+		<include refid="Base_Column_List" />
+		from loading_goods
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">order by ${orderByClause}</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from loading_goods where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		loading_goods where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.ht.model.LoadingGoodsExample">
+		delete from loading_goods
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.ht.model.LoadingGoods">
+		insert into loading_goods (id,
+		orderId, loadingId, ListEntNo)
+		values (#{id,jdbcType=INTEGER},
+		#{orderid,jdbcType=VARCHAR},
+		#{loadingid,jdbcType=INTEGER},
+		#{listentno,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.ht.model.LoadingGoods">
+		insert into loading_goods
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="orderid != null">orderId,</if>
+			<if test="loadingid != null">loadingId,</if>
+			<if test="listentno != null">ListEntNo,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id,jdbcType=INTEGER},</if>
+			<if test="orderid != null">#{orderid,jdbcType=VARCHAR},</if>
+			<if test="loadingid != null">
+				#{loadingid,jdbcType=INTEGER},
+			</if>
+			<if test="listentno != null">
+				#{listentno,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.ht.model.LoadingGoodsExample"
+		resultType="java.lang.Integer">
+		select count(*) from loading_goods
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update loading_goods
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.orderid != null">
+				orderId = #{record.orderid,jdbcType=VARCHAR},
+			</if>
+			<if test="record.loadingid != null">
+				loadingId = #{record.loadingid,jdbcType=INTEGER},
+			</if>
+			<if test="record.listentno != null">
+				ListEntNo = #{record.listentno,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update loading_goods set id = #{record.id,jdbcType=INTEGER},
+		orderId =
+		#{record.orderid,jdbcType=VARCHAR}, loadingId =
+		#{record.loadingid,jdbcType=INTEGER}, ListEntNo =
+		#{record.listentno,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.ht.model.LoadingGoods">
+		update loading_goods
+		<set>
+			<if test="orderid != null">
+				orderId = #{orderid,jdbcType=VARCHAR},
+			</if>
+			<if test="loadingid != null">
+				loadingId = #{loadingid,jdbcType=INTEGER},
+			</if>
+			<if test="listentno != null">
+				ListEntNo = #{listentno,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.ht.model.LoadingGoods">
+		update
+		loading_goods set orderId = #{orderid,jdbcType=VARCHAR},
+		loadingId =
+		#{loadingid,jdbcType=INTEGER}, ListEntNo =
+		#{listentno,jdbcType=VARCHAR} where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="getGoodsDetails" parameterType="com.ht.model.LoadingGoods"
+		resultMap="BaseResultMap">
+
+		select tt.*,
+		if(@EntRecordNo=tt.EntRecordNo,@rank:=@rank+1,@rank:=1) as
+		sortNum,
+		@EntRecordNo:=tt.EntRecordNo as EntRecordNo
+		from (
+		SELECT g.id,
+		g.`GName` as gName,oi.OrderId AS EntRecordNo, g.`registNo` as
+		customsListNO,
+		oi.`OrderName` as receiveName,
+		SUM(g.`GrossWt` * a.gqty)
+		as grossWt, SUM(a.gqty) as qty
+		FROM
+		goods g,
+		order_info oi ,
+		(SELECT
+		og.id,og.gqty, og.goodsid, og.orderId FROM order_goods og
+		WHERE
+		og.`OrderId` IN (
+		SELECT g.orderId FROM loading_goods g
+		WHERE
+		g.`orderId` IN
+		<foreach item="item" collection="list" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+		)) a
+		WHERE g.`id` = a.goodsid AND oi.`OrderId` = a.orderid
+		GROUP BY g.id, g.`GName`, g.`registNo`, oi.`OrderName`,a.id
+		order by oi.OrderId,g.id
+		) as tt,
+		(select @EntRecordNo:=null,@rank:=0) t
+
+	</select>
+	<select id="getLoadingIds" parameterType="com.ht.model.LoadingGoods"
+		resultMap="BaseResultMap">
+
+		SELECT COUNT(DISTINCT loadingid) as loadingid FROM loading_goods
+		g
+		WHERE g.`orderId` IN
+		<foreach item="item" collection="list" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+
+
+	</select>
+
+</mapper>
